@@ -1,5 +1,6 @@
 export enum RootRoutes {
   Main = "Main",
+  Login = "Login",
 }
 
 export enum BottomTabRoutes {

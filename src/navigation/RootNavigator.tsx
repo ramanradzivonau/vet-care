@@ -1,8 +1,8 @@
 import { FC } from "react";
-import { StyleSheet } from "react-native";
 import { createStackNavigator } from "@react-navigation/stack";
-import { RootRoutes, RootStackParamList } from "src/types";
 import { BottomTabNavigator } from "./BottomTabNavigator";
+import { LoginScreen } from "src/screens";
+import { RootRoutes, RootStackParamList } from "src/types";
 
 const RootStack = createStackNavigator<RootStackParamList>();
 
@@ -11,7 +11,9 @@ export const RootNavigator: FC = () => {
     <RootStack.Navigator
       screenOptions={{
         headerShown: false,
-      }}>
+      }}
+      initialRouteName={RootRoutes.Login}>
+      <RootStack.Screen name={RootRoutes.Login} component={LoginScreen} />
       <RootStack.Screen name={RootRoutes.Main} component={BottomTabNavigator} />
     </RootStack.Navigator>
   );
