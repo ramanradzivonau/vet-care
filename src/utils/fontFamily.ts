@@ -1,5 +1,5 @@
 import { fontFamilies } from "src/constants";
 
-export const getFontFamily = (weight: "semiBold" | "extraBold") => {
+export const getFontFamily = (weight: "semiBold" | "bold" | "extraBold") => {
   return fontFamilies.MONTSERRAT[weight];
 };

@@ -9,3 +9,7 @@ export enum BottomTabRoutes {
   ChatNav = "ChatNav",
   ProfileNav = "ProfileNav",
 }
+
+export enum HomeRoutes {
+  Home = "Home",
+}

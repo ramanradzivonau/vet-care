@@ -242,7 +242,6 @@ export const LoginScreen: FC<LoginScreenParams> = ({ navigation }) => {
             <TouchableOpacity
               style={Styles.button}
               onPress={() => {
-                console.log("onPress");
                 navigation.reset({
                   index: 0,
                   routes: [
@@ -296,7 +295,6 @@ const Styles = StyleSheet.create({
     borderRadius: 30,
     overflow: "hidden",
     backgroundColor: "#ffffff80",
-    // elevation: 16,
   },
   infoBlur: {
     position: "absolute",

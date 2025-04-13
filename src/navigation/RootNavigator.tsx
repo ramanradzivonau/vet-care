@@ -1,5 +1,8 @@
 import { FC } from "react";
-import { createStackNavigator } from "@react-navigation/stack";
+import {
+  createStackNavigator,
+  TransitionPresets,
+} from "@react-navigation/stack";
 import { BottomTabNavigator } from "./BottomTabNavigator";
 import { LoginScreen } from "src/screens";
 import { RootRoutes, RootStackParamList } from "src/types";
@@ -11,6 +14,7 @@ export const RootNavigator: FC = () => {
     <RootStack.Navigator
       screenOptions={{
         headerShown: false,
+        ...TransitionPresets.ModalFadeTransition,
       }}
       initialRouteName={RootRoutes.Login}>
       <RootStack.Screen name={RootRoutes.Login} component={LoginScreen} />
