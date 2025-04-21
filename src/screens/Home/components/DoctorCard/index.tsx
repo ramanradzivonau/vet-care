@@ -1,7 +1,7 @@
 import { FC, useEffect, useState } from "react";
-import { StyleSheet, Text, View, Image } from "react-native";
+import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
 import { getFontFamily } from "src/utils/fontFamily";
-import RatingIcon from "../../assets/RatingIcon";
+import RatingIcon from "../../../../assets/icons/RatingIcon";
 import LocationIcon from "../../assets/LocationIcon";
 import getDistance from "geolib/es/getDistance";
 import { Location, LocationErrorCode } from "react-native-get-location";
@@ -16,6 +16,7 @@ interface DoctorCardProps {
   currentLocation: Location | null;
   currentLocationIsLoading: boolean;
   currentLocationError: LocationErrorCode | null;
+  onPress: () => void;
 }
 
 export const DoctorCard: FC<DoctorCardProps> = ({
@@ -28,6 +29,7 @@ export const DoctorCard: FC<DoctorCardProps> = ({
   currentLocation,
   currentLocationIsLoading,
   currentLocationError,
+  onPress,
 }) => {
   const [distance, setDistance] = useState<string | null>(null);
 
@@ -39,12 +41,7 @@ export const DoctorCard: FC<DoctorCardProps> = ({
     }
   }, [currentLocation, currentLocationIsLoading, currentLocationError]);
   return (
-    <View
-      style={[
-        Styles.wrap,
-        index % 2 === 0 && { paddingRight: 9 },
-        index % 2 === 1 && { paddingLeft: 9 },
-      ]}>
+    <TouchableOpacity style={Styles.wrap} onPress={onPress}>
       <View style={Styles.cardWrap}>
         <View style={Styles.imageWrap}>
           <Image source={{ uri: imgUrl }} style={Styles.image} />
@@ -54,7 +51,7 @@ export const DoctorCard: FC<DoctorCardProps> = ({
           <Text style={Styles.clinic}>{clinicName}</Text>
           <View style={Styles.additionalInfoContainer}>
             <View style={Styles.ratingContainer}>
-              <RatingIcon />
+              <RatingIcon stroke="#F5F5F5" fill="#FFFFFF00" />
               <Text style={Styles.additionalText}>{rating}</Text>
             </View>
             <View style={Styles.locationContainer}>
@@ -66,15 +63,17 @@ export const DoctorCard: FC<DoctorCardProps> = ({
           </View>
         </View>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 
 const Styles = StyleSheet.create({
   wrap: {
-    width: "50%",
-
-    paddingBottom: 24,
+    flex: 1,
+    minWidth: "40%",
+    height: "auto",
+    borderRadius: 16,
+    elevation: 5,
   },
   cardWrap: {
     gap: 8,
@@ -90,7 +89,6 @@ const Styles = StyleSheet.create({
     padding: 4,
     borderRadius: "100%",
     backgroundColor: "#B77EFF",
-    elevation: 3,
   },
   image: {
     flex: 1,

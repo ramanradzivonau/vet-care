@@ -6,6 +6,7 @@ import {
 import { RootRoutes, BottomTabRoutes, HomeRoutes } from "./navigation-enums";
 
 export type RootStackParamList = {
+  [RootRoutes.Doctor]: { id: string };
   [RootRoutes.Main]: undefined;
   [RootRoutes.Login]: undefined;
 };

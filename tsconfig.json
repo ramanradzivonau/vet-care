@@ -2,8 +2,10 @@
   "extends": "@react-native/typescript-config/tsconfig.json",
   "compilerOptions": {
     "baseUrl": "./",
+    "moduleResolution": "bundler",
     "paths": {
       "src/*": ["src/*"],
-    }
+    },
+    "strict": true
   }
 }

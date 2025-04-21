@@ -1,4 +1,3 @@
-import { BlurView } from "@react-native-community/blur";
 import { FC } from "react";
 import {
   ImageBackground,
@@ -8,7 +7,7 @@ import {
   View,
 } from "react-native";
 import { getFontFamily } from "src/utils/fontFamily";
-import Arrow from "src/assets/icons/arrow-right.svg";
+import ArrowRight from "src/assets/icons/ArrowRight";
 
 interface BannerProps {
   onButtonPress: () => void;
@@ -22,14 +21,7 @@ export const Banner: FC<BannerProps> = ({ onButtonPress }) => {
       style={Styles.background}
       imageStyle={Styles.backgroundImage}>
       <View style={Styles.wrap}>
-        <View style={Styles.infoBackground}>
-          <BlurView
-            style={Styles.infoBlur}
-            blurType="light"
-            blurAmount={5}
-            reducedTransparencyFallbackColor="white"
-          />
-        </View>
+        <View style={Styles.infoBackground}></View>
         <View style={Styles.infoWrap}>
           <View style={Styles.infoContainer}>
             <Text style={Styles.infoTitle}>
@@ -40,7 +32,7 @@ export const Banner: FC<BannerProps> = ({ onButtonPress }) => {
             </Text>
           </View>
           <TouchableOpacity style={Styles.infoButton} onPress={onButtonPress}>
-            <Arrow />
+            <ArrowRight fill="#FFF" />
           </TouchableOpacity>
         </View>
       </View>
@@ -70,8 +62,7 @@ const Styles = StyleSheet.create({
     width: "100%",
     overflow: "hidden",
     borderRadius: 16,
-    backgroundColor: "#FFFFFF30",
-    elevation: 16,
+    backgroundColor: "#FFFFFF40",
   },
   infoBlur: {
     flex: 1,
@@ -99,8 +90,8 @@ const Styles = StyleSheet.create({
   infoButton: {
     justifyContent: "center",
     alignItems: "center",
-    height: 50,
-    width: 50,
+    height: 54,
+    width: 54,
     borderRadius: 16,
     backgroundColor: "#7D16FFB0",
   },

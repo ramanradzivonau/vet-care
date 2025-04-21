@@ -1,22 +1,50 @@
 import { FC, useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
+import { StackNavigationProp, StackScreenProps } from "@react-navigation/stack";
 import { ScrollView } from "react-native-gesture-handler";
 import {
   SafeAreaView,
   useSafeAreaInsets,
 } from "react-native-safe-area-context";
-import { HomeStackScreenProps, HomeRoutes } from "src/types";
+import {
+  HomeStackScreenProps,
+  HomeRoutes,
+  RootRoutes,
+  HomeStackParamList,
+} from "src/types";
 import { Banner } from "./components";
 import { getFontFamily } from "src/utils/fontFamily";
-import { categories, doctors } from "./mock";
+import { categories, doctorsMockData } from "./mock";
 import { CategoryItem } from "./components/CategoryItem";
 import { DoctorCard } from "./components/DoctorCard";
 import { useCurrentLocation } from "src/hooks";
+import { CompositeNavigationProp, RouteProp } from "@react-navigation/native";
+import { RootStackParamList, TabStackParamsList } from "src/types/navigation";
+import { BottomTabNavigationProp } from "@react-navigation/bottom-tabs";
 
-type LoginScreenParams = HomeStackScreenProps<HomeRoutes.Home>;
+type HomeScreenNavigationProp = CompositeNavigationProp<
+  StackNavigationProp<HomeStackParamList, HomeRoutes.Home>,
+  CompositeNavigationProp<
+    BottomTabNavigationProp<TabStackParamsList>,
+    StackNavigationProp<RootStackParamList>
+  >
+>;
 
-export const HomeScreen: FC<LoginScreenParams> = ({}) => {
+type HomeScreenRouteProp = RouteProp<HomeStackParamList, HomeRoutes.Home>;
+
+type HomeScreenParams = {
+  navigation: HomeScreenNavigationProp;
+  route: HomeScreenRouteProp;
+};
+
+export const HomeScreen: FC<HomeScreenParams> = ({ navigation }) => {
   const [activeCategoryId, setActiveCategoryId] = useState(categories[0].id);
+
+  const [doctorsList, setDoctorsList] = useState(
+    doctorsMockData.filter(doctor =>
+      doctor.categoies.includes(activeCategoryId)
+    )
+  );
   const insets = useSafeAreaInsets();
   const { isLoading, location, error } = useCurrentLocation();
 
@@ -24,6 +52,17 @@ export const HomeScreen: FC<LoginScreenParams> = ({}) => {
 
   const onBannerButtonPress = () => {
     console.log("banner press");
+  };
+
+  const onChangeCategory = (id: string) => {
+    setActiveCategoryId(id);
+    setDoctorsList(
+      doctorsMockData.filter(doctor => doctor.categoies.includes(id))
+    );
+  };
+
+  const onDoctorCardPress = (id: string) => {
+    navigation.navigate(RootRoutes.Doctor, { id });
   };
 
   return (
@@ -47,7 +86,7 @@ export const HomeScreen: FC<LoginScreenParams> = ({}) => {
                   category={category.category}
                   isActive={activeCategoryId === category.id}
                   label={category.label}
-                  onPress={() => setActiveCategoryId(category.id)}
+                  onPress={() => onChangeCategory(category.id)}
                 />
               ))}
             </ScrollView>
@@ -55,22 +94,23 @@ export const HomeScreen: FC<LoginScreenParams> = ({}) => {
           <View style={Styles.doctorsContainer}>
             <Text style={Styles.title}>Врачи</Text>
             <View style={Styles.doctorsList}>
-              {doctors
-                .find(category => category.categoryId === activeCategoryId)
-                ?.doctors.map((doctor, index) => (
-                  <DoctorCard
-                    index={index}
-                    fullName={doctor.fullName}
-                    imgUrl={doctor.img}
-                    rating={doctor.rating}
-                    clinicName={doctor.clinic.name}
-                    clinicLocation={doctor.clinic.location}
-                    currentLocation={location}
-                    currentLocationIsLoading={isLoading}
-                    currentLocationError={error}
-                    key={`doctor-${activeCategoryId}-id-${doctor.id}`}
-                  />
-                ))}
+              {doctorsList.map((doctor, index) => (
+                <DoctorCard
+                  index={index}
+                  fullName={doctor.fullName}
+                  imgUrl={doctor.img}
+                  rating={doctor.rating}
+                  clinicName={doctor.clinic.name}
+                  clinicLocation={doctor.clinic.location}
+                  currentLocation={location}
+                  currentLocationIsLoading={isLoading}
+                  currentLocationError={error}
+                  key={`doctor-id-${doctor.id}`}
+                  onPress={() => {
+                    onDoctorCardPress(doctor.id);
+                  }}
+                />
+              ))}
             </View>
           </View>
         </View>
@@ -117,7 +157,10 @@ const Styles = StyleSheet.create({
     flex: 1,
     flexDirection: "row",
     flexWrap: "wrap",
+    rowGap: 24,
+    columnGap: 18,
     paddingHorizontal: 22,
+    paddingBottom: 24,
     marginBottom: 24,
   },
 });

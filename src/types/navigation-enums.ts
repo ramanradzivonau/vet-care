@@ -1,4 +1,5 @@
 export enum RootRoutes {
+  Doctor = "Doctor",
   Main = "Main",
   Login = "Login",
 }

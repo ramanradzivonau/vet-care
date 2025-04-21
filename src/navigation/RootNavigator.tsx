@@ -6,6 +6,7 @@ import {
 import { BottomTabNavigator } from "./BottomTabNavigator";
 import { LoginScreen } from "src/screens";
 import { RootRoutes, RootStackParamList } from "src/types";
+import { DoctorScreen } from "src/screens/Doctor";
 
 const RootStack = createStackNavigator<RootStackParamList>();
 
@@ -19,6 +20,7 @@ export const RootNavigator: FC = () => {
       initialRouteName={RootRoutes.Login}>
       <RootStack.Screen name={RootRoutes.Login} component={LoginScreen} />
       <RootStack.Screen name={RootRoutes.Main} component={BottomTabNavigator} />
+      <RootStack.Screen name={RootRoutes.Doctor} component={DoctorScreen} />
     </RootStack.Navigator>
   );
 };
