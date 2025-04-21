@@ -6,12 +6,7 @@ import {
   SafeAreaView,
   useSafeAreaInsets,
 } from "react-native-safe-area-context";
-import {
-  HomeStackScreenProps,
-  HomeRoutes,
-  RootRoutes,
-  HomeStackParamList,
-} from "src/types";
+import { HomeRoutes, RootRoutes, HomeStackParamList } from "src/types";
 import { Banner } from "./components";
 import { getFontFamily } from "src/utils/fontFamily";
 import { categories, doctorsMockData } from "./mock";
