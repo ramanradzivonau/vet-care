@@ -13,6 +13,7 @@ import { ProfileIcon } from "src/assets/BottomTabNavigation/ProfileIcon";
 import { TabStackParamsList } from "src/types/navigation";
 import { BottomTabRoutes } from "src/types/navigation-enums";
 import { HomeNavigator } from "./HomeNavigator";
+import { CalendarNavigator } from "./CalendatNavigation";
 
 const Tab = createBottomTabNavigator<TabStackParamsList>();
 
@@ -30,15 +31,9 @@ export const BottomTabNavigator: FC = () => {
       />
       <Tab.Screen
         name={BottomTabRoutes.CalendarNav}
-        children={() => (
-          <View
-            style={{
-              flex: 1,
-              backgroundColor: "#fff",
-            }}></View>
-        )}
+        children={() => <CalendarNavigator />}
       />
-      <Tab.Screen
+      {/* <Tab.Screen
         name={BottomTabRoutes.ChatNav}
         children={() => (
           <View
@@ -47,7 +42,7 @@ export const BottomTabNavigator: FC = () => {
               backgroundColor: "#fff",
             }}></View>
         )}
-      />
+      /> */}
       <Tab.Screen
         name={BottomTabRoutes.ProfileNav}
         children={() => (
@@ -74,8 +69,8 @@ const TabBar: FC<BottomTabBarProps> = ({ state, navigation }) => {
         return <HomeIcon fill={fill} stroke={stroke} />;
       case BottomTabRoutes.CalendarNav:
         return <CalendarIcon fill={fill} stroke={stroke} />;
-      case BottomTabRoutes.ChatNav:
-        return <ChatIcon fill={fill} stroke={stroke} />;
+      // case BottomTabRoutes.ChatNav:
+      //   return <ChatIcon fill={fill} stroke={stroke} />;
       case BottomTabRoutes.ProfileNav:
         return <ProfileIcon fill={fill} stroke={stroke} />;
       default:
@@ -143,7 +138,7 @@ const Styles = StyleSheet.create({
     backgroundColor: "#fff",
   },
   itemWrap: {
-    flex: 0.25,
+    flex: 0.33,
     height: "100%",
     justifyContent: "flex-end",
     alignItems: "center",

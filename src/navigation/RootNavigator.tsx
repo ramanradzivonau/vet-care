@@ -7,6 +7,7 @@ import { BottomTabNavigator } from "./BottomTabNavigator";
 import { LoginScreen } from "src/screens";
 import { RootRoutes, RootStackParamList } from "src/types";
 import { DoctorScreen } from "src/screens/Doctor";
+import { BookAppointmentScreen } from "src/screens/BookAppointment";
 
 const RootStack = createStackNavigator<RootStackParamList>();
 
@@ -21,6 +22,10 @@ export const RootNavigator: FC = () => {
       <RootStack.Screen name={RootRoutes.Login} component={LoginScreen} />
       <RootStack.Screen name={RootRoutes.Main} component={BottomTabNavigator} />
       <RootStack.Screen name={RootRoutes.Doctor} component={DoctorScreen} />
+      <RootStack.Screen
+        name={RootRoutes.BookAppointment}
+        component={BookAppointmentScreen}
+      />
     </RootStack.Navigator>
   );
 };

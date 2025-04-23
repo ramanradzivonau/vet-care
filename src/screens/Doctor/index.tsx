@@ -30,6 +30,10 @@ export const DoctorScreen: FC<DoctorScreenProps> = ({ navigation, route }) => {
   const doctorInfo = doctorsMockData.find(doctor => doctor.id === id)!;
   const insets = useSafeAreaInsets();
 
+  const onBookAppointmentButtonPress = () => {
+    navigation.navigate(RootRoutes.BookAppointment, { id });
+  };
+
   return (
     <View style={Styles.wrap}>
       <ScrollView style={Styles.scrollView} overScrollMode="never">
@@ -79,10 +83,12 @@ export const DoctorScreen: FC<DoctorScreenProps> = ({ navigation, route }) => {
               </View>
               <Text style={Styles.description}>{doctorInfo.description}</Text>
               <View style={Styles.buttonsContainer}>
-                <TouchableOpacity style={Styles.messageButton}>
+                {/* <TouchableOpacity style={Styles.messageButton}>
                   <ChatIcon />
-                </TouchableOpacity>
-                <TouchableOpacity style={Styles.bookButton}>
+                </TouchableOpacity> */}
+                <TouchableOpacity
+                  style={Styles.bookButton}
+                  onPress={onBookAppointmentButtonPress}>
                   <Text style={Styles.bookButtonText}>Забронировать</Text>
                   <ArrowRight fill="#FFF" />
                 </TouchableOpacity>
