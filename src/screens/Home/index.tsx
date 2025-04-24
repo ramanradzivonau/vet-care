@@ -1,5 +1,5 @@
 import { FC, useState } from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, StatusBar, Text, View } from "react-native";
 import { StackNavigationProp, StackScreenProps } from "@react-navigation/stack";
 import { ScrollView } from "react-native-gesture-handler";
 import {
@@ -63,6 +63,7 @@ export const HomeScreen: FC<HomeScreenParams> = ({ navigation }) => {
   return (
     <SafeAreaView
       style={[Styles.safeArea, { paddingBottom: 50 + paddingBottom }]}>
+      <StatusBar translucent />
       <ScrollView style={Styles.scrollView} overScrollMode="never">
         <View style={Styles.bannerContainer}>
           <Banner onButtonPress={onBannerButtonPress} />

@@ -14,7 +14,9 @@ export type RootStackParamList = {
   [RootRoutes.BookAppointment]: { id: string };
   [RootRoutes.Doctor]: { id: string };
   [RootRoutes.Main]: undefined;
+  [RootRoutes.Welcome]: undefined;
   [RootRoutes.Login]: undefined;
+  [RootRoutes.Signup]: undefined;
 };
 
 export type TabStackParamsList = {
