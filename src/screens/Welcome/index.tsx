@@ -303,7 +303,7 @@ const Styles = StyleSheet.create({
   info: {
     width: "100%",
     borderRadius: 30,
-    elevation: 16,
+    elevation: 5,
   },
   infoBg: {
     position: "absolute",

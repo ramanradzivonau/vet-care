@@ -19,6 +19,7 @@ import ImageResizer from "react-native-image-resizer";
 import RNFS from "react-native-fs";
 import { useDispatch } from "react-redux";
 import { setOwner } from "src/store/owner";
+import ArrowLeft from "src/assets/icons/ArrowLeft";
 
 type SignupScreenParams = StackScreenProps<
   RootStackParamList,
@@ -54,15 +55,6 @@ export const SignupScreen: FC<SignupScreenParams> = ({ navigation }) => {
 
   const finishRegistration = () => {
     if (imageBase64) {
-      console.log({
-        login,
-        email,
-        password,
-        name,
-        surname,
-        telephoneNumber,
-        imageBase64: imageBase64.slice(0, 199),
-      });
       register({
         login,
         email,
@@ -94,11 +86,11 @@ export const SignupScreen: FC<SignupScreenParams> = ({ navigation }) => {
 
   useEffect(() => {
     if (status === "fulfilled" && data) {
-      dispatch(setOwner(data));
-      navigation.reset({
-        index: 0,
-        routes: [{ name: RootRoutes.Welcome }],
-      });
+      // dispatch(setOwner(data));
+      // navigation.reset({
+      //   index: 0,
+      //   routes: [{ name: RootRoutes.Welcome }],
+      // });
     }
   }, [status, data]);
 
@@ -109,9 +101,17 @@ export const SignupScreen: FC<SignupScreenParams> = ({ navigation }) => {
       style={[Styles.logo]}>
       <View style={[Styles.container, { paddingTop: insets.top }]}>
         <View style={Styles.signupForm}>
+          {step !== 0 && (
+            <TouchableOpacity
+              style={Styles.backButton}
+              onPress={() => setStep(step - 1)}>
+              <ArrowLeft fill="#000" />
+            </TouchableOpacity>
+          )}
           {step === 0 && (
             <View style={Styles.signupStep}>
               <Text style={Styles.stepTitle}>Создай свой аккаунт</Text>
+              <Text style={Styles.stepSubtitle}>Шаг: {step + 1}</Text>
               <TextInput
                 style={Styles.input}
                 onChangeText={onLoginChange}
@@ -161,6 +161,8 @@ export const SignupScreen: FC<SignupScreenParams> = ({ navigation }) => {
           {step === 1 && (
             <View style={Styles.signupStep}>
               <Text style={Styles.stepTitle}>Создай свой аккаунт</Text>
+              <Text style={Styles.stepSubtitle}>Шаг: {step + 1}</Text>
+
               <TextInput
                 style={Styles.input}
                 onChangeText={onNameChange}
@@ -209,6 +211,7 @@ export const SignupScreen: FC<SignupScreenParams> = ({ navigation }) => {
           {step === 2 && (
             <View style={Styles.signupStep}>
               <Text style={Styles.stepTitle}>Создай свой аккаунт</Text>
+              <Text style={Styles.stepSubtitle}>Шаг: {step + 1}</Text>
               <View style={Styles.imgPickerWrap}>
                 <TouchableOpacity
                   style={Styles.imgPickerContainer}
@@ -267,6 +270,16 @@ const Styles = StyleSheet.create({
   container: {
     flex: 1,
   },
+  backButton: {
+    position: "absolute",
+    left: 22,
+    justifyContent: "center",
+    alignItems: "center",
+    width: 54,
+    height: 54,
+    borderRadius: 16,
+    backgroundColor: "#FFFFFF66",
+  },
   signupForm: {
     flex: 0.75,
     paddingHorizontal: 22,
@@ -274,13 +287,19 @@ const Styles = StyleSheet.create({
   signupStep: {
     flex: 1,
     justifyContent: "center",
-    gap: 24,
     paddingTop: 144,
   },
   stepTitle: {
     fontFamily: getFontFamily("bold"),
     fontSize: 24,
     color: "#544864",
+    marginBottom: 8,
+  },
+  stepSubtitle: {
+    fontFamily: getFontFamily("bold"),
+    fontSize: 16,
+    color: "#544864",
+    marginBottom: 24,
   },
   input: {
     height: 54,
@@ -288,6 +307,7 @@ const Styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: "#7D16FF",
     padding: 10,
+    marginBottom: 24,
     backgroundColor: "#fff",
     elevation: 5,
     fontFamily: getFontFamily("regular"),
@@ -296,6 +316,7 @@ const Styles = StyleSheet.create({
   },
   imgPickerWrap: {
     alignItems: "center",
+    marginBottom: 24,
   },
   imgPickerContainer: {
     position: "relative",

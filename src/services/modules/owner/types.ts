@@ -8,6 +8,11 @@ export type OwnerDataRequest = {
   imageBase64: string;
 };
 
+export type LoginDataResponse = {
+  email: string;
+  password: string;
+};
+
 export type OwnerDataResponse = {
   owner: {
     id: number;

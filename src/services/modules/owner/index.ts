@@ -1,5 +1,9 @@
 import { api } from "../../api";
-import { OwnerDataRequest, OwnerDataResponse } from "./types";
+import {
+  LoginDataResponse,
+  OwnerDataRequest,
+  OwnerDataResponse,
+} from "./types";
 
 export const ownerApi = api.injectEndpoints({
   endpoints: build => ({
@@ -10,8 +14,15 @@ export const ownerApi = api.injectEndpoints({
         body,
       }),
     }),
+    login: build.query<OwnerDataResponse, LoginDataResponse>({
+      query: ({ ...body }) => ({
+        url: `owner/login`,
+        method: "POST",
+        body,
+      }),
+    }),
   }),
   overrideExisting: false,
 });
 
-export const { useLazyRegistrationQuery } = ownerApi;
+export const { useLazyRegistrationQuery, useLazyLoginQuery } = ownerApi;
