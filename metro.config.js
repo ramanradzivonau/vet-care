@@ -1,4 +1,5 @@
 const { getDefaultConfig, mergeConfig } = require("@react-native/metro-config");
+const blacklist = require("metro-config/src/defaults/exclusionList");
 
 const defaultConfig = getDefaultConfig(__dirname);
 
@@ -24,7 +25,7 @@ const config = {
   resolver: {
     assetExts: assetExts.filter(ext => ext !== "svg"),
     sourceExts: [...sourceExts, "svg"],
-    blacklistRE: exclusionList([/.*\.cxx.*/]),
+    blacklistRE: blacklist([/android\/app\/\.cxx.*/]),
   },
 };
 
