@@ -1,66 +1,37 @@
-import { FC, useEffect, useState } from "react";
-import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
+import { FC } from "react";
+import {
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  TouchableOpacity,
+  Dimensions,
+} from "react-native";
 import { getFontFamily } from "src/utils/fontFamily";
-import RatingIcon from "../../../../assets/icons/RatingIcon";
-import LocationIcon from "../../assets/LocationIcon";
-import getDistance from "geolib/es/getDistance";
-import { Location, LocationErrorCode } from "react-native-get-location";
 
+const { width: screenWidth } = Dimensions.get("screen");
 interface DoctorCardProps {
-  index: number;
   fullName: string;
-  imgUrl: string;
-  rating: number;
-  clinicName: string;
-  clinicLocation: { latitude: number; longitude: number };
-  currentLocation: Location | null;
-  currentLocationIsLoading: boolean;
-  currentLocationError: LocationErrorCode | null;
+  imageBase64: string;
   onPress: () => void;
 }
 
 export const DoctorCard: FC<DoctorCardProps> = ({
-  index,
   fullName,
-  imgUrl,
-  clinicName,
-  rating,
-  clinicLocation,
-  currentLocation,
-  currentLocationIsLoading,
-  currentLocationError,
+  imageBase64,
   onPress,
 }) => {
-  const [distance, setDistance] = useState<string | null>(null);
-
-  useEffect(() => {
-    if (currentLocation && !currentLocationIsLoading && !currentLocationError) {
-      const currentDistance =
-        getDistance(clinicLocation, currentLocation) / 1000;
-      setDistance(currentDistance.toFixed(1));
-    }
-  }, [currentLocation, currentLocationIsLoading, currentLocationError]);
   return (
     <TouchableOpacity style={Styles.wrap} onPress={onPress}>
       <View style={Styles.cardWrap}>
         <View style={Styles.imageWrap}>
-          <Image source={{ uri: imgUrl }} style={Styles.image} />
+          <Image
+            source={{ uri: `data:image/jpeg;base64,${imageBase64}` }}
+            style={Styles.image}
+          />
         </View>
         <View style={Styles.infoWrap}>
           <Text style={Styles.fullName}>{fullName}</Text>
-          <Text style={Styles.clinic}>{clinicName}</Text>
-          <View style={Styles.additionalInfoContainer}>
-            <View style={Styles.ratingContainer}>
-              <RatingIcon stroke="#F5F5F5" fill="#FFFFFF00" />
-              <Text style={Styles.additionalText}>{rating}</Text>
-            </View>
-            <View style={Styles.locationContainer}>
-              <LocationIcon />
-              <Text style={Styles.additionalText}>
-                {(distance ? distance : "-") + " км"}
-              </Text>
-            </View>
-          </View>
         </View>
       </View>
     </TouchableOpacity>
@@ -70,18 +41,17 @@ export const DoctorCard: FC<DoctorCardProps> = ({
 const Styles = StyleSheet.create({
   wrap: {
     flex: 1,
+    maxWidth: screenWidth / 2 - 31,
     minWidth: "40%",
-    height: "auto",
     borderRadius: 16,
     elevation: 5,
+    backgroundColor: "#A259FF",
   },
   cardWrap: {
     gap: 8,
     alignItems: "center",
     paddingHorizontal: 18,
     paddingVertical: 12,
-    borderRadius: 16,
-    backgroundColor: "#A259FF",
   },
   imageWrap: {
     width: "90%",
@@ -102,31 +72,6 @@ const Styles = StyleSheet.create({
     fontFamily: getFontFamily("semiBold"),
     fontSize: 14,
     color: "#F5F5F5",
-  },
-  clinic: {
-    fontFamily: getFontFamily("semiBold"),
-    fontSize: 12,
-    color: "#CBA6FB",
-  },
-  additionalInfoContainer: {
-    flexDirection: "row",
-    gap: 18,
-    width: "100%",
-    marginTop: 6,
-  },
-  ratingContainer: {
-    alignItems: "center",
-    flexDirection: "row",
-    gap: 5,
-  },
-  locationContainer: {
-    alignItems: "center",
-    flexDirection: "row",
-    gap: 5,
-  },
-  additionalText: {
-    fontFamily: getFontFamily("semiBold"),
-    fontSize: 12,
-    color: "#F5F5F5",
+    textAlign: "center",
   },
 });

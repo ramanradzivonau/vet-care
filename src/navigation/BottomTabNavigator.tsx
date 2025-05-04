@@ -8,7 +8,6 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Shadow } from "react-native-shadow-2";
 import { HomeIcon } from "src/assets/BottomTabNavigation/HomeIcon";
 import { CalendarIcon } from "src/assets/BottomTabNavigation/CalendarIcon";
-import { ChatIcon } from "src/assets/BottomTabNavigation/ChatIcon";
 import { ProfileIcon } from "src/assets/BottomTabNavigation/ProfileIcon";
 import { TabStackParamsList } from "src/types/navigation";
 import { BottomTabRoutes } from "src/types/navigation-enums";
@@ -33,16 +32,6 @@ export const BottomTabNavigator: FC = () => {
         name={BottomTabRoutes.CalendarNav}
         children={() => <CalendarNavigator />}
       />
-      {/* <Tab.Screen
-        name={BottomTabRoutes.ChatNav}
-        children={() => (
-          <View
-            style={{
-              flex: 1,
-              backgroundColor: "#fff",
-            }}></View>
-        )}
-      /> */}
       <Tab.Screen
         name={BottomTabRoutes.ProfileNav}
         children={() => (

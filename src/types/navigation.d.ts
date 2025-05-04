@@ -9,10 +9,11 @@ import {
   HomeRoutes,
   CalendarRoutes,
 } from "./navigation-enums";
+import { CATEGORIES } from "src/screens/Home/types";
 
 export type RootStackParamList = {
   [RootRoutes.BookAppointment]: { id: string };
-  [RootRoutes.Doctor]: { id: string };
+  [RootRoutes.Doctor]: { id: number; category: CATEGORIES };
   [RootRoutes.Main]: undefined;
   [RootRoutes.Welcome]: undefined;
   [RootRoutes.Login]: undefined;

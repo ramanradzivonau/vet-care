@@ -2,7 +2,6 @@ import { FC } from "react";
 import {
   Dimensions,
   ImageBackground,
-  SafeAreaView,
   ScrollView,
   StyleSheet,
   Text,
@@ -13,12 +12,11 @@ import { StackScreenProps } from "@react-navigation/stack";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import ArrowLeft from "src/assets/icons/ArrowLeft";
 import { RootRoutes, RootStackParamList } from "src/types";
-import { doctorsMockData } from "../Home/mock";
 import { Shadow } from "react-native-shadow-2";
 import { getFontFamily } from "src/utils/fontFamily";
-import RatingIcon from "src/assets/icons/RatingIcon";
-import ChatIcon from "src/assets/icons/ChatIcon.svg";
 import ArrowRight from "src/assets/icons/ArrowRight";
+import { useAppSelector } from "src/store";
+import { LocaleConfig } from "react-native-calendars";
 
 type DoctorScreenProps = StackScreenProps<
   RootStackParamList,
@@ -26,12 +24,18 @@ type DoctorScreenProps = StackScreenProps<
 >;
 
 export const DoctorScreen: FC<DoctorScreenProps> = ({ navigation, route }) => {
+  const doctorsData = useAppSelector(state => state.doctor.doctorsByCategory);
+
   const { id } = route.params;
-  const doctorInfo = doctorsMockData.find(doctor => doctor.id === id)!;
+  const { category } = route.params;
+
+  const doctorInfo = doctorsData
+    .find(doctors => doctors.specialisation === category)
+    ?.doctors.find(doctor => doctor.id === id)!;
   const insets = useSafeAreaInsets();
 
   const onBookAppointmentButtonPress = () => {
-    navigation.navigate(RootRoutes.BookAppointment, { id });
+    // navigation.navigate(RootRoutes.BookAppointment, { id });
   };
 
   return (
@@ -39,7 +43,7 @@ export const DoctorScreen: FC<DoctorScreenProps> = ({ navigation, route }) => {
       <ScrollView style={Styles.scrollView} overScrollMode="never">
         <View style={Styles.scrollViewContainer}>
           <ImageBackground
-            source={{ uri: doctorInfo.img }}
+            source={{ uri: `data:image/jpeg;base64,${doctorInfo.imageBase64}` }}
             resizeMode="cover"
             style={Styles.imageBackground}>
             <View style={[Styles.navigationBar, { marginTop: insets.top }]}>
@@ -57,38 +61,47 @@ export const DoctorScreen: FC<DoctorScreenProps> = ({ navigation, route }) => {
               startColor="#A259FF60">
               <Text style={Styles.fullName}>{doctorInfo.fullName}</Text>
               <View style={Styles.tagsContainer}>
-                {doctorInfo.tags.map(tag => (
+                {doctorInfo.hashTags.map(tag => (
                   <View key={tag} style={Styles.tag}>
                     <Text style={Styles.tagText}>{tag}</Text>
                   </View>
                 ))}
               </View>
-              <View style={Styles.ratingContainer}>
-                {new Array(5)
-                  .fill(null)
-                  .map((_, index) => index + 1)
-                  .map(item => (
-                    <RatingIcon
-                      key={`rating-item-${item}`}
-                      stroke="#544864"
-                      fill="#EFC721"
-                      width={26}
-                      fillPercentage={
-                        doctorInfo.rating > item
-                          ? 1
-                          : doctorInfo.rating - item + 1
-                      }
-                    />
-                  ))}
-              </View>
               <Text style={Styles.description}>{doctorInfo.description}</Text>
+              <View style={Styles.scheduleContainer}>
+                <Text style={Styles.scheduleTitle}>
+                  {doctorInfo.schedule
+                    ? "Даты ближайший приемов:"
+                    : "В ближайшее время врач не принимает"}
+                </Text>
+                <View style={Styles.scheduleDaysContainer}>
+                  {doctorInfo.schedule?.map(day => {
+                    const date = new Date(day);
+                    const dayOfWeek =
+                      LocaleConfig.locales["ru"].dayNamesShort[
+                        date.getDay() - 1
+                      ];
+                    return (
+                      <View style={Styles.scheduleDay}>
+                        <Text style={Styles.scheduleDayOfWeek}>
+                          {dayOfWeek}
+                        </Text>
+                        <Text style={Styles.scheduleDate}>
+                          {date.getDate()}
+                        </Text>
+                      </View>
+                    );
+                  })}
+                </View>
+              </View>
               <View style={Styles.buttonsContainer}>
-                {/* <TouchableOpacity style={Styles.messageButton}>
-                  <ChatIcon />
-                </TouchableOpacity> */}
                 <TouchableOpacity
-                  style={Styles.bookButton}
-                  onPress={onBookAppointmentButtonPress}>
+                  style={[
+                    Styles.bookButton,
+                    doctorInfo.schedule === null && Styles.bookButtonDisabled,
+                  ]}
+                  onPress={onBookAppointmentButtonPress}
+                  disabled={doctorInfo.schedule === null}>
                   <Text style={Styles.bookButtonText}>Забронировать</Text>
                   <ArrowRight fill="#FFF" />
                 </TouchableOpacity>
@@ -142,7 +155,7 @@ const Styles = StyleSheet.create({
     paddingHorizontal: 22,
     borderTopLeftRadius: 28,
     borderTopRightRadius: 28,
-    backgroundColor: "#F8F2FF",
+    backgroundColor: "#FFFFFF",
   },
   fullName: {
     fontFamily: getFontFamily("semiBold"),
@@ -167,17 +180,45 @@ const Styles = StyleSheet.create({
     fontSize: 16,
     color: "#A259FF",
   },
-  ratingContainer: {
-    flexDirection: "row",
-    justifyContent: "center",
-    gap: 5,
-    marginTop: 16,
-  },
   description: {
     marginTop: 20,
     fontFamily: getFontFamily("light"),
     fontSize: 16,
     color: "#544864",
+  },
+  scheduleContainer: {
+    marginTop: 16,
+    marginBottom: 20,
+  },
+  scheduleTitle: {
+    fontFamily: getFontFamily("medium"),
+    fontSize: 18,
+    color: "#544864",
+  },
+  scheduleDaysContainer: {
+    marginTop: 20,
+    flexDirection: "row",
+    justifyContent: "center",
+    gap: 16,
+  },
+  scheduleDay: {
+    alignItems: "center",
+    justifyContent: "center",
+    width: 60,
+    height: 60,
+    borderRadius: 30,
+    backgroundColor: "#FAFAFB",
+    elevation: 1,
+  },
+  scheduleDayOfWeek: {
+    fontFamily: getFontFamily("regular"),
+    fontSize: 14,
+    color: "#A259FF",
+  },
+  scheduleDate: {
+    fontFamily: getFontFamily("semiBold"),
+    fontSize: 18,
+    color: "#000000",
   },
   buttonsContainer: {
     marginTop: 20,
@@ -205,6 +246,9 @@ const Styles = StyleSheet.create({
     borderRadius: 16,
     backgroundColor: "#7D16FF",
     elevation: 5,
+  },
+  bookButtonDisabled: {
+    backgroundColor: "#9BA1A8",
   },
   bookButtonText: {
     fontFamily: getFontFamily("bold"),

@@ -1,6 +1,6 @@
 import { FC, useState } from "react";
 import { StyleSheet, StatusBar, Text, View } from "react-native";
-import { StackNavigationProp, StackScreenProps } from "@react-navigation/stack";
+import { StackNavigationProp } from "@react-navigation/stack";
 import { ScrollView } from "react-native-gesture-handler";
 import {
   SafeAreaView,
@@ -9,13 +9,14 @@ import {
 import { HomeRoutes, RootRoutes, HomeStackParamList } from "src/types";
 import { Banner } from "./components";
 import { getFontFamily } from "src/utils/fontFamily";
-import { categories, doctorsMockData } from "./mock";
+import { categories } from "./mock";
 import { CategoryItem } from "./components/CategoryItem";
 import { DoctorCard } from "./components/DoctorCard";
-import { useCurrentLocation } from "src/hooks";
 import { CompositeNavigationProp, RouteProp } from "@react-navigation/native";
 import { RootStackParamList, TabStackParamsList } from "src/types/navigation";
 import { BottomTabNavigationProp } from "@react-navigation/bottom-tabs";
+import { useAppSelector } from "src/store";
+import { CATEGORIES } from "./types";
 
 type HomeScreenNavigationProp = CompositeNavigationProp<
   StackNavigationProp<HomeStackParamList, HomeRoutes.Home>,
@@ -33,15 +34,14 @@ type HomeScreenParams = {
 };
 
 export const HomeScreen: FC<HomeScreenParams> = ({ navigation }) => {
-  const [activeCategoryId, setActiveCategoryId] = useState(categories[0].id);
-
+  const doctorsData = useAppSelector(state => state.doctor.doctorsByCategory);
+  const [activeCategory, setActiveCategory] = useState(CATEGORIES.THERAPISTS);
   const [doctorsList, setDoctorsList] = useState(
-    doctorsMockData.filter(doctor =>
-      doctor.categoies.includes(activeCategoryId)
-    )
+    doctorsData.find(doctors =>
+      doctors.specialisation.includes(CATEGORIES.THERAPISTS)
+    )?.doctors || []
   );
   const insets = useSafeAreaInsets();
-  const { isLoading, location, error } = useCurrentLocation();
 
   const paddingBottom = insets.bottom >= 20 ? insets.bottom : 20;
 
@@ -49,15 +49,17 @@ export const HomeScreen: FC<HomeScreenParams> = ({ navigation }) => {
     console.log("banner press");
   };
 
-  const onChangeCategory = (id: string) => {
-    setActiveCategoryId(id);
+  const onChangeCategory = (activeCategory: CATEGORIES) => {
+    setActiveCategory(activeCategory);
     setDoctorsList(
-      doctorsMockData.filter(doctor => doctor.categoies.includes(id))
+      doctorsData.find(doctors =>
+        doctors.specialisation.includes(activeCategory)
+      )?.doctors || []
     );
   };
 
-  const onDoctorCardPress = (id: string) => {
-    navigation.navigate(RootRoutes.Doctor, { id });
+  const onDoctorCardPress = (id: number) => {
+    navigation.navigate(RootRoutes.Doctor, { id, category: activeCategory });
   };
 
   return (
@@ -80,9 +82,9 @@ export const HomeScreen: FC<HomeScreenParams> = ({ navigation }) => {
                 <CategoryItem
                   key={`category-item-${category.id}`}
                   category={category.category}
-                  isActive={activeCategoryId === category.id}
+                  isActive={activeCategory === category.category}
                   label={category.label}
-                  onPress={() => onChangeCategory(category.id)}
+                  onPress={() => onChangeCategory(category.category)}
                 />
               ))}
             </ScrollView>
@@ -90,17 +92,10 @@ export const HomeScreen: FC<HomeScreenParams> = ({ navigation }) => {
           <View style={Styles.doctorsContainer}>
             <Text style={Styles.title}>Врачи</Text>
             <View style={Styles.doctorsList}>
-              {doctorsList.map((doctor, index) => (
+              {doctorsList.map(doctor => (
                 <DoctorCard
-                  index={index}
                   fullName={doctor.fullName}
-                  imgUrl={doctor.img}
-                  rating={doctor.rating}
-                  clinicName={doctor.clinic.name}
-                  clinicLocation={doctor.clinic.location}
-                  currentLocation={location}
-                  currentLocationIsLoading={isLoading}
-                  currentLocationError={error}
+                  imageBase64={doctor.imageBase64}
                   key={`doctor-id-${doctor.id}`}
                   onPress={() => {
                     onDoctorCardPress(doctor.id);

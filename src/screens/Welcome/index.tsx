@@ -37,6 +37,9 @@ import { BlurView } from "@react-native-community/blur";
 import { getFontFamily } from "src/utils/fontFamily";
 import { RootRoutes, RootStackParamList } from "src/types";
 import { MMKV } from "react-native-mmkv";
+import { useLazyGetAllDoctorsQuery } from "src/services/modules/doctor";
+import { setDoctors } from "src/store/doctor";
+import { useAppDispatch } from "src/store";
 
 const storage = new MMKV();
 
@@ -55,7 +58,10 @@ export const WelcomeScreen: FC<WelcomeScreenParams> = ({ navigation }) => {
   const { height, width } = useWindowDimensions();
   const insets = useSafeAreaInsets();
   const isLogIn = !!storage.getString("access_token");
-  console.log({ isLogIn });
+
+  const [fetchDoctors, { status: doctorsStatus, data: doctorsData }] =
+    useLazyGetAllDoctorsQuery();
+  const dispatch = useAppDispatch();
 
   const progress = useSharedValue(0);
   const infoOpacity = useSharedValue(0);
@@ -178,11 +184,20 @@ export const WelcomeScreen: FC<WelcomeScreenParams> = ({ navigation }) => {
   }, []);
 
   useEffect(() => {
-    navigation.reset({
-      index: 0,
-      routes: [{ name: RootRoutes.Main }],
-    });
+    if (isLogIn) {
+      fetchDoctors();
+    }
   }, [isLogIn]);
+
+  useEffect(() => {
+    if (doctorsStatus === "fulfilled" && doctorsData) {
+      dispatch(setDoctors(doctorsData));
+      navigation.reset({
+        index: 0,
+        routes: [{ name: RootRoutes.Main }],
+      });
+    }
+  }, [doctorsStatus, doctorsData]);
 
   return (
     <View style={Styles.wrap}>

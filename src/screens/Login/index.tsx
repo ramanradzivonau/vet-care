@@ -11,9 +11,9 @@ import { StackScreenProps } from "@react-navigation/stack";
 import { RootRoutes, RootStackParamList } from "src/types";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { getFontFamily } from "src/utils/fontFamily";
-import { useDispatch } from "react-redux";
 import { useLazyLoginQuery } from "src/services/modules/owner";
 import { setOwner } from "src/store/owner";
+import { useAppDispatch } from "src/store";
 
 type LoginScreenParams = StackScreenProps<RootStackParamList, RootRoutes.Login>;
 
@@ -22,7 +22,7 @@ export const LoginScreen: FC<LoginScreenParams> = ({ navigation }) => {
   const [password, onPasswordChange] = useState("");
 
   const [loginFetch, { status, data }] = useLazyLoginQuery();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const insets = useSafeAreaInsets();
 

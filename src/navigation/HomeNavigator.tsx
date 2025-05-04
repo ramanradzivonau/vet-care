@@ -1,5 +1,8 @@
 import { FC } from "react";
-import { createStackNavigator } from "@react-navigation/stack";
+import {
+  createStackNavigator,
+  TransitionPresets,
+} from "@react-navigation/stack";
 import { HomeScreen } from "src/screens";
 import { HomeStackParamList } from "src/types/navigation";
 import { HomeRoutes } from "src/types/navigation-enums";
