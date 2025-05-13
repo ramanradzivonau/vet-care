@@ -17,7 +17,7 @@ import { useLazyRegistrationQuery } from "src/services/modules/owner";
 import AddIcon from "src/assets/LoginScreen/add.svg";
 import ImageResizer from "react-native-image-resizer";
 import RNFS from "react-native-fs";
-import { setOwner } from "src/store/owner";
+import { loginUser } from "src/store/user";
 import ArrowLeft from "src/assets/icons/ArrowLeft";
 import { useAppDispatch } from "src/store";
 
@@ -86,7 +86,7 @@ export const SignupScreen: FC<SignupScreenParams> = ({ navigation }) => {
 
   useEffect(() => {
     if (status === "fulfilled" && data) {
-      dispatch(setOwner(data));
+      dispatch(loginUser(data));
       navigation.reset({
         index: 0,
         routes: [{ name: RootRoutes.Welcome }],

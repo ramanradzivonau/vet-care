@@ -92,7 +92,7 @@ const Styles = StyleSheet.create({
     alignItems: "center",
     height: 54,
     width: 54,
-    borderRadius: 16,
+    borderRadius: 27,
     backgroundColor: "#7D16FFB0",
   },
 });

@@ -13,6 +13,7 @@ import { TabStackParamsList } from "src/types/navigation";
 import { BottomTabRoutes } from "src/types/navigation-enums";
 import { HomeNavigator } from "./HomeNavigator";
 import { CalendarNavigator } from "./CalendatNavigation";
+import { ProfileNavigator } from "./ProfileNavigation";
 
 const Tab = createBottomTabNavigator<TabStackParamsList>();
 
@@ -34,13 +35,7 @@ export const BottomTabNavigator: FC = () => {
       />
       <Tab.Screen
         name={BottomTabRoutes.ProfileNav}
-        children={() => (
-          <View
-            style={{
-              flex: 1,
-              backgroundColor: "#fff",
-            }}></View>
-        )}
+        children={() => <ProfileNavigator />}
       />
     </Tab.Navigator>
   );
@@ -89,7 +84,7 @@ const TabBar: FC<BottomTabBarProps> = ({ state, navigation }) => {
           },
         ]}
         distance={10}
-        startColor="#A259FF60">
+        startColor="#7135FD60">
         {routes.map((route, index) => (
           <View key={index} style={Styles.itemWrap}>
             <TouchableWithoutFeedback
@@ -100,8 +95,8 @@ const TabBar: FC<BottomTabBarProps> = ({ state, navigation }) => {
               <View>
                 {getIcon(
                   route as keyof TabStackParamsList,
-                  index === activeIndex ? "#CBA6FB" : "#FFFFFF",
-                  index === activeIndex ? "#7D16FF" : "#B6B6B6"
+                  index === activeIndex ? "#B0A5FD" : "#FFFFFF",
+                  index === activeIndex ? "#7135FD" : "#B6B6B6"
                 )}
               </View>
             </TouchableWithoutFeedback>

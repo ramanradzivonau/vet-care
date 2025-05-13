@@ -9,9 +9,12 @@ import {
   View,
 } from "react-native";
 import { StackScreenProps } from "@react-navigation/stack";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
+import {
+  SafeAreaView,
+  useSafeAreaInsets,
+} from "react-native-safe-area-context";
 import ArrowLeft from "src/assets/icons/ArrowLeft";
-import { RootRoutes, RootStackParamList } from "src/types";
+import { HomeRoutes, HomeStackParamList } from "src/types";
 import { Shadow } from "react-native-shadow-2";
 import { getFontFamily } from "src/utils/fontFamily";
 import ArrowRight from "src/assets/icons/ArrowRight";
@@ -19,8 +22,8 @@ import { useAppSelector } from "src/store";
 import { LocaleConfig } from "react-native-calendars";
 
 type DoctorScreenProps = StackScreenProps<
-  RootStackParamList,
-  RootRoutes.Doctor
+  HomeStackParamList,
+  HomeRoutes.Doctor
 >;
 
 export const DoctorScreen: FC<DoctorScreenProps> = ({ navigation, route }) => {
@@ -29,17 +32,21 @@ export const DoctorScreen: FC<DoctorScreenProps> = ({ navigation, route }) => {
   const { id } = route.params;
   const { category } = route.params;
 
+  const insets = useSafeAreaInsets();
+  const paddingBottom = insets.bottom >= 20 ? insets.bottom : 20;
+
   const doctorInfo = doctorsData
     .find(doctors => doctors.specialisation === category)
     ?.doctors.find(doctor => doctor.id === id)!;
-  const insets = useSafeAreaInsets();
 
   const onBookAppointmentButtonPress = () => {
     // navigation.navigate(RootRoutes.BookAppointment, { id });
   };
 
+  const currentDay = new Date().toISOString().slice(0, 10);
+
   return (
-    <View style={Styles.wrap}>
+    <View style={[Styles.wrap, { paddingBottom: 50 + paddingBottom }]}>
       <ScrollView style={Styles.scrollView} overScrollMode="never">
         <View style={Styles.scrollViewContainer}>
           <ImageBackground
@@ -58,7 +65,7 @@ export const DoctorScreen: FC<DoctorScreenProps> = ({ navigation, route }) => {
             <Shadow
               style={Styles.infoShadow}
               distance={10}
-              startColor="#A259FF60">
+              startColor="#7135FD60">
               <Text style={Styles.fullName}>{doctorInfo.fullName}</Text>
               <View style={Styles.tagsContainer}>
                 {doctorInfo.hashTags.map(tag => (
@@ -74,25 +81,36 @@ export const DoctorScreen: FC<DoctorScreenProps> = ({ navigation, route }) => {
                     ? "Даты ближайший приемов:"
                     : "В ближайшее время врач не принимает"}
                 </Text>
-                <View style={Styles.scheduleDaysContainer}>
-                  {doctorInfo.schedule?.map(day => {
-                    const date = new Date(day);
-                    const dayOfWeek =
-                      LocaleConfig.locales["ru"].dayNamesShort[
-                        date.getDay() - 1
-                      ];
-                    return (
-                      <View style={Styles.scheduleDay}>
-                        <Text style={Styles.scheduleDayOfWeek}>
-                          {dayOfWeek}
-                        </Text>
-                        <Text style={Styles.scheduleDate}>
-                          {date.getDate()}
-                        </Text>
-                      </View>
-                    );
-                  })}
-                </View>
+                {doctorInfo.schedule && (
+                  <View style={Styles.scheduleDaysContainer}>
+                    {doctorInfo.schedule?.slice(0, 5)?.map(day => {
+                      const date = new Date(day);
+                      const dateString = date.toISOString().slice(0, 10);
+                      console.log({ date });
+
+                      const dayOfWeek =
+                        LocaleConfig.locales["ru"].dayNamesShort[
+                          date.getDay() === 0 ? 6 : date.getDay() - 1
+                        ];
+                      return (
+                        <View key={day} style={Styles.scheduleDay}>
+                          <Text style={Styles.scheduleDayOfWeek}>
+                            {dayOfWeek}
+                          </Text>
+                          <Text
+                            style={[
+                              Styles.scheduleDate,
+                              currentDay === dateString && {
+                                color: "#7D16FF",
+                              },
+                            ]}>
+                            {date.getDate()}
+                          </Text>
+                        </View>
+                      );
+                    })}
+                  </View>
+                )}
               </View>
               <View style={Styles.buttonsContainer}>
                 <TouchableOpacity
@@ -138,7 +156,7 @@ const Styles = StyleSheet.create({
     alignItems: "center",
     width: 54,
     height: 54,
-    borderRadius: 16,
+    borderRadius: 27,
     backgroundColor: "#FFFFFF66",
   },
   infoWrap: {
@@ -155,11 +173,11 @@ const Styles = StyleSheet.create({
     paddingHorizontal: 22,
     borderTopLeftRadius: 28,
     borderTopRightRadius: 28,
-    backgroundColor: "#FFFFFF",
+    backgroundColor: "#F8FBFC",
   },
   fullName: {
-    fontFamily: getFontFamily("semiBold"),
-    fontSize: 24,
+    fontFamily: getFontFamily("bold"),
+    fontSize: 28,
     textAlign: "center",
     color: "#544864",
   },
@@ -188,7 +206,6 @@ const Styles = StyleSheet.create({
   },
   scheduleContainer: {
     marginTop: 16,
-    marginBottom: 20,
   },
   scheduleTitle: {
     fontFamily: getFontFamily("medium"),
@@ -197,6 +214,7 @@ const Styles = StyleSheet.create({
   },
   scheduleDaysContainer: {
     marginTop: 20,
+    marginBottom: 20,
     flexDirection: "row",
     justifyContent: "center",
     gap: 16,
@@ -213,7 +231,7 @@ const Styles = StyleSheet.create({
   scheduleDayOfWeek: {
     fontFamily: getFontFamily("regular"),
     fontSize: 14,
-    color: "#A259FF",
+    color: "#9BA1A8",
   },
   scheduleDate: {
     fontFamily: getFontFamily("semiBold"),
@@ -256,3 +274,5 @@ const Styles = StyleSheet.create({
     color: "#FFFFFF",
   },
 });
+
+// F8FBFC;

@@ -3,7 +3,7 @@ import {
   createStackNavigator,
   TransitionPresets,
 } from "@react-navigation/stack";
-import { HomeScreen } from "src/screens";
+import { DoctorScreen, HomeScreen } from "src/screens";
 import { HomeStackParamList } from "src/types/navigation";
 import { HomeRoutes } from "src/types/navigation-enums";
 import { StyleSheet } from "react-native";
@@ -19,12 +19,13 @@ export const HomeNavigator: FC = () => {
       }}
       initialRouteName={HomeRoutes.Home}>
       <HomeStack.Screen name={HomeRoutes.Home} component={HomeScreen} />
+      <HomeStack.Screen name={HomeRoutes.Doctor} component={DoctorScreen} />
     </HomeStack.Navigator>
   );
 };
 
 const Styles = StyleSheet.create({
   cardStyle: {
-    backgroundColor: "#F8F2FF",
+    backgroundColor: "#F8FBFC",
   },
 });

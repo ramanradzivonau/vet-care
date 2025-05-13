@@ -33,7 +33,6 @@ export const RootNavigator: FC = () => {
       <RootStack.Screen name={RootRoutes.Signup} component={SignupScreen} />
 
       <RootStack.Screen name={RootRoutes.Main} component={BottomTabNavigator} />
-      <RootStack.Screen name={RootRoutes.Doctor} component={DoctorScreen} />
       <RootStack.Screen
         name={RootRoutes.BookAppointment}
         component={BookAppointmentScreen}

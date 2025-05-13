@@ -1,4 +1,6 @@
-export type OwnerDataRequest = {
+import { PetDataResponse } from "../pet/types";
+
+export type UserDataRequest = {
   name: string;
   surname: string;
   email: string;
@@ -13,7 +15,7 @@ export type LoginDataResponse = {
   password: string;
 };
 
-export type OwnerDataResponse = {
+export type UserLoginDataResponse = {
   owner: {
     id: number;
     name: string;
@@ -23,4 +25,8 @@ export type OwnerDataResponse = {
     imageBase64: string;
   };
   token: string;
+};
+
+export type UserDataResponse = UserLoginDataResponse["owner"] & {
+  petsList: PetDataResponse[];
 };

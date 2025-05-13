@@ -11,6 +11,7 @@
     "postinstall": "patch-package"
   },
   "dependencies": {
+    "@ptomasroos/react-native-multi-slider": "^2.2.2",
     "@react-native-community/blur": "^4.4.1",
     "@react-navigation/bottom-tabs": "^6.5.8",
     "@react-navigation/native": "^6.1.7",
@@ -35,6 +36,7 @@
     "react-native-splash-screen": "^3.3.0",
     "react-native-svg": "^15.11.2",
     "react-native-toast-message": "^2.3.0",
+    "react-native-ui-datepicker": "^3.1.2",
     "react-redux": "^9.2.0"
   },
   "devDependencies": {

@@ -40,6 +40,8 @@ import { MMKV } from "react-native-mmkv";
 import { useLazyGetAllDoctorsQuery } from "src/services/modules/doctor";
 import { setDoctors } from "src/store/doctor";
 import { useAppDispatch } from "src/store";
+import { useLazyGetUserDataQuery } from "src/services/modules/owner";
+import { setUserData } from "src/store/user";
 
 const storage = new MMKV();
 
@@ -61,6 +63,9 @@ export const WelcomeScreen: FC<WelcomeScreenParams> = ({ navigation }) => {
 
   const [fetchDoctors, { status: doctorsStatus, data: doctorsData }] =
     useLazyGetAllDoctorsQuery();
+  const [fetchUser, { status: userStatus, data: userData }] =
+    useLazyGetUserDataQuery();
+
   const dispatch = useAppDispatch();
 
   const progress = useSharedValue(0);
@@ -186,12 +191,18 @@ export const WelcomeScreen: FC<WelcomeScreenParams> = ({ navigation }) => {
   useEffect(() => {
     if (isLogIn) {
       fetchDoctors();
+      fetchUser();
     }
   }, [isLogIn]);
 
   useEffect(() => {
     if (doctorsStatus === "fulfilled" && doctorsData) {
       dispatch(setDoctors(doctorsData));
+    }
+    if (userStatus === "fulfilled" && userData) {
+      dispatch(setUserData(userData));
+    }
+    if ([doctorsStatus, userStatus].every(status => status === "fulfilled")) {
       navigation.reset({
         index: 0,
         routes: [{ name: RootRoutes.Main }],

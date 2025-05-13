@@ -35,7 +35,10 @@ const baseQueryWithInterceptor: BaseQueryFn<
         "Что-то пошло не так",
     });
   }
-
+  if (result.error?.status === 401) {
+    storage.delete("access_token");
+    storage.delete("user_id");
+  }
   return result;
 };
 

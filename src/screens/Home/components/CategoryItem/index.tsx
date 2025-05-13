@@ -76,7 +76,7 @@ const Styles = StyleSheet.create({
     backgroundColor: "#B77EFF8C",
   },
   iconWrapActive: {
-    backgroundColor: "#7D16FF",
+    backgroundColor: "#7D16FFD0",
   },
   labelWrap: {
     flex: 1,

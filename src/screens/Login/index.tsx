@@ -12,7 +12,7 @@ import { RootRoutes, RootStackParamList } from "src/types";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { getFontFamily } from "src/utils/fontFamily";
 import { useLazyLoginQuery } from "src/services/modules/owner";
-import { setOwner } from "src/store/owner";
+import { loginUser } from "src/store/user";
 import { useAppDispatch } from "src/store";
 
 type LoginScreenParams = StackScreenProps<RootStackParamList, RootRoutes.Login>;
@@ -34,7 +34,7 @@ export const LoginScreen: FC<LoginScreenParams> = ({ navigation }) => {
 
   useEffect(() => {
     if (status === "fulfilled" && data) {
-      dispatch(setOwner(data));
+      dispatch(loginUser(data));
       navigation.reset({
         index: 0,
         routes: [{ name: RootRoutes.Welcome }],

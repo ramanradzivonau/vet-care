@@ -1,56 +1,12 @@
 import { FC } from "react";
 import { StyleSheet, View } from "react-native";
-import { Calendar, LocaleConfig } from "react-native-calendars";
+import { Calendar } from "react-native-calendars";
 import {
   SafeAreaView,
   useSafeAreaInsets,
 } from "react-native-safe-area-context";
 import { Header, NextAppointment } from "./components";
 import { getFontFamily } from "src/utils/fontFamily";
-
-LocaleConfig.locales["ru"] = {
-  monthNames: [
-    "Январь",
-    "Февраль",
-    "Март",
-    "Апрель",
-    "Май",
-    "Июнь",
-    "Июль",
-    "Август",
-    "Сентябрь",
-    "Октябрь",
-    "Ноябрь",
-    "Декабрь",
-  ],
-  monthNamesShort: [
-    "Янв",
-    "Фев",
-    "Мар",
-    "Апр",
-    "Май",
-    "Июнь",
-    "Июль",
-    "Авг",
-    "Сен",
-    "Окт",
-    "Ноя",
-    "Дек",
-  ],
-  dayNames: [
-    "Понедельник",
-    "Вторник",
-    "Среда",
-    "Четверг",
-    "Пятница",
-    "Суббота",
-    "Воскресенье",
-  ],
-  dayNamesShort: ["Пн", "Вт", "Ср", "Чт", "Пт", "Сб", "Вс"],
-  today: "Сегодня",
-};
-
-LocaleConfig.defaultLocale = "ru";
 
 export const MonthCalendarScreen: FC = () => {
   const insets = useSafeAreaInsets();
@@ -91,7 +47,7 @@ export const MonthCalendarScreen: FC = () => {
 const Styles = StyleSheet.create({
   wrap: {
     flex: 1,
-    backgroundColor: "#F8F2FF",
+    backgroundColor: "#F8FBFC",
   },
   safeArea: {
     flex: 1,

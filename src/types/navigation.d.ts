@@ -8,12 +8,12 @@ import {
   BottomTabRoutes,
   HomeRoutes,
   CalendarRoutes,
+  ProfileRoutes,
 } from "./navigation-enums";
 import { CATEGORIES } from "src/screens/Home/types";
 
 export type RootStackParamList = {
   [RootRoutes.BookAppointment]: { id: string };
-  [RootRoutes.Doctor]: { id: number; category: CATEGORIES };
   [RootRoutes.Main]: undefined;
   [RootRoutes.Welcome]: undefined;
   [RootRoutes.Login]: undefined;
@@ -29,10 +29,18 @@ export type TabStackParamsList = {
 
 export type HomeStackParamList = {
   [HomeRoutes.Home]: undefined;
+  [HomeRoutes.Doctor]: { id: number; category: CATEGORIES };
 };
 
 export type CalendarStackParamList = {
   [CalendarRoutes.Month]: undefined;
+};
+
+export type ProfileStackParamList = {
+  [ProfileRoutes.Profile]: undefined;
+  [ProfileRoutes.AddPet]: undefined;
+  [ProfileRoutes.PetsList]: undefined;
+  [ProfileRoutes.Pet]: { id: number };
 };
 
 export type RootStackScreenProps<T extends keyof RootStackParamList> =

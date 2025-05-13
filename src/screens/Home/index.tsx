@@ -1,6 +1,6 @@
 import { FC, useState } from "react";
 import { StyleSheet, StatusBar, Text, View } from "react-native";
-import { StackNavigationProp } from "@react-navigation/stack";
+import { StackNavigationProp, StackScreenProps } from "@react-navigation/stack";
 import { ScrollView } from "react-native-gesture-handler";
 import {
   SafeAreaView,
@@ -12,28 +12,12 @@ import { getFontFamily } from "src/utils/fontFamily";
 import { categories } from "./mock";
 import { CategoryItem } from "./components/CategoryItem";
 import { DoctorCard } from "./components/DoctorCard";
-import { CompositeNavigationProp, RouteProp } from "@react-navigation/native";
-import { RootStackParamList, TabStackParamsList } from "src/types/navigation";
-import { BottomTabNavigationProp } from "@react-navigation/bottom-tabs";
 import { useAppSelector } from "src/store";
 import { CATEGORIES } from "./types";
 
-type HomeScreenNavigationProp = CompositeNavigationProp<
-  StackNavigationProp<HomeStackParamList, HomeRoutes.Home>,
-  CompositeNavigationProp<
-    BottomTabNavigationProp<TabStackParamsList>,
-    StackNavigationProp<RootStackParamList>
-  >
->;
+type HomeScreenProps = StackScreenProps<HomeStackParamList, HomeRoutes.Home>;
 
-type HomeScreenRouteProp = RouteProp<HomeStackParamList, HomeRoutes.Home>;
-
-type HomeScreenParams = {
-  navigation: HomeScreenNavigationProp;
-  route: HomeScreenRouteProp;
-};
-
-export const HomeScreen: FC<HomeScreenParams> = ({ navigation }) => {
+export const HomeScreen: FC<HomeScreenProps> = ({ navigation }) => {
   const doctorsData = useAppSelector(state => state.doctor.doctorsByCategory);
   const [activeCategory, setActiveCategory] = useState(CATEGORIES.THERAPISTS);
   const [doctorsList, setDoctorsList] = useState(
@@ -59,7 +43,7 @@ export const HomeScreen: FC<HomeScreenParams> = ({ navigation }) => {
   };
 
   const onDoctorCardPress = (id: number) => {
-    navigation.navigate(RootRoutes.Doctor, { id, category: activeCategory });
+    navigation.navigate(HomeRoutes.Doctor, { id, category: activeCategory });
   };
 
   return (

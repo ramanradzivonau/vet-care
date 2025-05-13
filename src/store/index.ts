@@ -1,6 +1,6 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { api } from "../services/api";
-import ownerReducer from "./owner";
+import ownerReducer from "./user";
 import doctorReducer from "./doctor";
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 
