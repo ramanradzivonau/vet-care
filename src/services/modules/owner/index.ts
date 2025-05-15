@@ -6,7 +6,7 @@ import {
   UserLoginDataResponse,
   UserDataResponse,
   AppointmentDataRequest,
-  AppointmentDataResponse,
+  AppointmentsDataResponse,
 } from "./types";
 
 const storage = new MMKV();
@@ -36,10 +36,7 @@ export const ownerApi = api.injectEndpoints({
         },
       }),
     }),
-    makeAppointment: build.query<
-      AppointmentDataResponse,
-      AppointmentDataRequest
-    >({
+    makeAppointment: build.query<void, AppointmentDataRequest>({
       query: ({ ...body }) => ({
         url: `appointment`,
         method: "POST",
@@ -47,6 +44,15 @@ export const ownerApi = api.injectEndpoints({
           Authorization: `Bearer ${storage.getString("access_token")}`,
         },
         body,
+      }),
+    }),
+    getAppointments: build.query<AppointmentsDataResponse, void>({
+      query: () => ({
+        url: `appointment/owner/${storage.getString("user_id")}`,
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${storage.getString("access_token")}`,
+        },
       }),
     }),
   }),
@@ -58,4 +64,5 @@ export const {
   useLazyLoginQuery,
   useLazyGetUserDataQuery,
   useLazyMakeAppointmentQuery,
+  useLazyGetAppointmentsQuery,
 } = ownerApi;

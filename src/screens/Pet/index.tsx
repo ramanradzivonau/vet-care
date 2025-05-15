@@ -105,7 +105,9 @@ export const PetScreen: FC<PetScreenProps> = ({ navigation, route }) => {
                 <View style={Styles.mainInfoItem}>
                   <Text style={Styles.mainInfoItemTitle}>Возраст</Text>
                   <Text style={Styles.mainInfoItemText}>
-                    {age >= 12 ? Math.trunc(age / 12) + " г" : age + " м"}
+                    {age >= 12
+                      ? Math.trunc(age / 12) + `${age >= 48 ? " л" : " г"}`
+                      : age + " м"}
                   </Text>
                 </View>
                 <View style={Styles.mainInfoItem}>

@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { MMKV } from "react-native-mmkv";
 import {
+  AppointmentsDataResponse,
   UserDataResponse,
   UserLoginDataResponse,
 } from "src/services/modules/owner/types";
@@ -16,6 +17,7 @@ interface UserState {
   telephoneNumber: string;
   imageBase64?: string;
   petsList: PetData[];
+  appointments: AppointmentsDataResponse;
 }
 const storage = new MMKV();
 
@@ -27,6 +29,7 @@ const initialState: UserState = {
   telephoneNumber: "",
   imageBase64: undefined,
   petsList: [],
+  appointments: [],
 };
 
 const userSlice = createSlice({
@@ -59,6 +62,15 @@ const userSlice = createSlice({
         petsList: [...state.petsList, action.payload],
       };
     },
+    setAppointmentsData: (
+      state,
+      action: PayloadAction<AppointmentsDataResponse>
+    ) => {
+      return {
+        ...state,
+        appointments: action.payload,
+      };
+    },
     logout: () => {
       storage.delete("access_token");
       storage.delete("user_id");
@@ -67,5 +79,11 @@ const userSlice = createSlice({
   },
 });
 
-export const { loginUser, setUserData, addPetData, logout } = userSlice.actions;
+export const {
+  loginUser,
+  setUserData,
+  setAppointmentsData,
+  addPetData,
+  logout,
+} = userSlice.actions;
 export default userSlice.reducer;

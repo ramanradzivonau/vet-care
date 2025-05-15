@@ -17,9 +17,9 @@ export const Header: FC<HeaderProps> = ({ date }) => {
 
 const Styles = StyleSheet.create({
   text: {
-    paddingBottom: 30,
+    // paddingBottom: 12,
     fontFamily: getFontFamily("semiBold"),
-    fontSize: 36,
+    fontSize: 22,
     color: "#544864",
   },
 });

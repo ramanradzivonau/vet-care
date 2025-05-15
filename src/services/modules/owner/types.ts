@@ -1,3 +1,4 @@
+import { DoctorData } from "../doctor/types";
 import { PetDataResponse } from "../pet/types";
 
 export type UserDataRequest = {
@@ -38,9 +39,12 @@ export type AppointmentDataRequest = {
   dateTime: string;
 };
 
-export type AppointmentDataResponse = {
+export type AppointmentsDataResponse = Array<{
   id: number;
+  ownerId: number;
   dateTime: string;
   durationMinutes: number;
   status: string;
-};
+  doctor: DoctorData;
+  pet: PetDataResponse;
+}>;

@@ -40,8 +40,11 @@ import { MMKV } from "react-native-mmkv";
 import { useLazyGetAllDoctorsQuery } from "src/services/modules/doctor";
 import { setDoctors } from "src/store/doctor";
 import { useAppDispatch } from "src/store";
-import { useLazyGetUserDataQuery } from "src/services/modules/owner";
-import { setUserData } from "src/store/user";
+import {
+  useLazyGetAppointmentsQuery,
+  useLazyGetUserDataQuery,
+} from "src/services/modules/owner";
+import { setAppointmentsData, setUserData } from "src/store/user";
 
 const storage = new MMKV();
 
@@ -65,6 +68,10 @@ export const WelcomeScreen: FC<WelcomeScreenParams> = ({ navigation }) => {
     useLazyGetAllDoctorsQuery();
   const [fetchUser, { status: userStatus, data: userData }] =
     useLazyGetUserDataQuery();
+  const [
+    fetchAppointments,
+    { status: appointmentsStatus, data: appointmentsData },
+  ] = useLazyGetAppointmentsQuery();
 
   const dispatch = useAppDispatch();
 
@@ -192,6 +199,7 @@ export const WelcomeScreen: FC<WelcomeScreenParams> = ({ navigation }) => {
     if (isLogIn) {
       fetchDoctors();
       fetchUser();
+      fetchAppointments();
     }
   }, [isLogIn]);
 
@@ -202,13 +210,27 @@ export const WelcomeScreen: FC<WelcomeScreenParams> = ({ navigation }) => {
     if (userStatus === "fulfilled" && userData) {
       dispatch(setUserData(userData));
     }
-    if ([doctorsStatus, userStatus].every(status => status === "fulfilled")) {
+    if (appointmentsStatus === "fulfilled" && appointmentsData) {
+      dispatch(setAppointmentsData(appointmentsData));
+    }
+    if (
+      [doctorsStatus, userStatus, appointmentsStatus].every(
+        status => status === "fulfilled"
+      )
+    ) {
       navigation.reset({
         index: 0,
         routes: [{ name: RootRoutes.Main }],
       });
     }
-  }, [doctorsStatus, doctorsData]);
+  }, [
+    doctorsStatus,
+    doctorsData,
+    userStatus,
+    userData,
+    appointmentsStatus,
+    appointmentsData,
+  ]);
 
   return (
     <View style={Styles.wrap}>
