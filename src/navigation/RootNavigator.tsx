@@ -11,14 +11,13 @@ import {
   DoctorScreen,
 } from "src/screens";
 import { RootRoutes, RootStackParamList } from "src/types";
-import { BookAppointmentScreen } from "src/screens/BookAppointment";
 import changeNavigationBarColor from "react-native-navigation-bar-color";
 
 const RootStack = createStackNavigator<RootStackParamList>();
 
 export const RootNavigator: FC = () => {
   useEffect(() => {
-    changeNavigationBarColor("#FFFFFF", true, false);
+    changeNavigationBarColor("#F8FBFC", true, false);
   }, []);
 
   return (
@@ -33,10 +32,6 @@ export const RootNavigator: FC = () => {
       <RootStack.Screen name={RootRoutes.Signup} component={SignupScreen} />
 
       <RootStack.Screen name={RootRoutes.Main} component={BottomTabNavigator} />
-      <RootStack.Screen
-        name={RootRoutes.BookAppointment}
-        component={BookAppointmentScreen}
-      />
     </RootStack.Navigator>
   );
 };

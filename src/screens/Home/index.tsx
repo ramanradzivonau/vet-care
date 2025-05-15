@@ -14,6 +14,7 @@ import { CategoryItem } from "./components/CategoryItem";
 import { DoctorCard } from "./components/DoctorCard";
 import { useAppSelector } from "src/store";
 import { CATEGORIES } from "./types";
+import { Card } from "src/components";
 
 type HomeScreenProps = StackScreenProps<HomeStackParamList, HomeRoutes.Home>;
 
@@ -77,10 +78,10 @@ export const HomeScreen: FC<HomeScreenProps> = ({ navigation }) => {
             <Text style={Styles.title}>Врачи</Text>
             <View style={Styles.doctorsList}>
               {doctorsList.map(doctor => (
-                <DoctorCard
-                  fullName={doctor.fullName}
-                  imageBase64={doctor.imageBase64}
+                <Card
                   key={`doctor-id-${doctor.id}`}
+                  text={doctor.fullName}
+                  imageBase64={doctor.imageBase64}
                   onPress={() => {
                     onDoctorCardPress(doctor.id);
                   }}

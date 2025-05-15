@@ -57,7 +57,7 @@ export const LoginScreen: FC<LoginScreenParams> = ({ navigation }) => {
               onSubmitEditing={onLoginHandler}
               value={email}
               placeholder="Почта"
-              placeholderTextColor="#DDC2FF"
+              placeholderTextColor="#8D7EFB"
               autoCapitalize="none"
               autoCorrect={false}
               inputMode="email"
@@ -68,7 +68,7 @@ export const LoginScreen: FC<LoginScreenParams> = ({ navigation }) => {
               onSubmitEditing={onLoginHandler}
               value={password}
               placeholder="Пароль"
-              placeholderTextColor="#DDC2FF"
+              placeholderTextColor="#8D7EFB"
               autoCapitalize="none"
               autoCorrect={false}
               secureTextEntry
@@ -138,13 +138,14 @@ const Styles = StyleSheet.create({
   input: {
     height: 54,
     borderRadius: 16,
-    borderWidth: 1,
-    borderColor: "#7D16FF",
-    padding: 10,
-    marginBottom: 24,
+    borderWidth: 2,
+    borderColor: "#C6BFFD",
+    paddingVertical: 10,
+    paddingHorizontal: 16,
+    marginBottom: 22,
     backgroundColor: "#fff",
     elevation: 5,
-    fontFamily: getFontFamily("regular"),
+    fontFamily: getFontFamily("medium"),
     fontSize: 14,
     color: "#544864",
   },
@@ -160,7 +161,7 @@ const Styles = StyleSheet.create({
     gap: 4,
     height: 54,
     borderRadius: 16,
-    backgroundColor: "#7D16FF",
+    backgroundColor: "#7135FD",
   },
   nextButtonDisabled: {
     backgroundColor: "#9E9E9E",
@@ -184,6 +185,6 @@ const Styles = StyleSheet.create({
   signUpContainerLink: {
     fontFamily: getFontFamily("semiBold"),
     fontSize: 16,
-    color: "#7D16FF",
+    color: "#7135FD",
   },
 });

@@ -13,7 +13,6 @@ import {
 import { CATEGORIES } from "src/screens/Home/types";
 
 export type RootStackParamList = {
-  [RootRoutes.BookAppointment]: { id: string };
   [RootRoutes.Main]: undefined;
   [RootRoutes.Welcome]: undefined;
   [RootRoutes.Login]: undefined;
@@ -29,7 +28,9 @@ export type TabStackParamsList = {
 
 export type HomeStackParamList = {
   [HomeRoutes.Home]: undefined;
+  [HomeRoutes.AddPet]: undefined;
   [HomeRoutes.Doctor]: { id: number; category: CATEGORIES };
+  [HomeRoutes.BookAppointment]: { id: number };
 };
 
 export type CalendarStackParamList = {

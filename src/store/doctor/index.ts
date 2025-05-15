@@ -1,6 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { DoctorsDataResponse } from "src/services/modules/doctor/types";
-import { OwnerDataResponse } from "src/services/modules/owner/types";
 
 interface OwnerState {
   doctorsByCategory: DoctorsDataResponse;

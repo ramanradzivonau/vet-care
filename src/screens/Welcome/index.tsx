@@ -219,24 +219,24 @@ export const WelcomeScreen: FC<WelcomeScreenParams> = ({ navigation }) => {
               cx={(111 / 430) * width + ((200 / 430) * width) / 2}
               cy={(376 / 932) * height + ((200 / 932) * height) / 2}
               r={((200 / 430) * width) / 2}
-              color="#B77EFF8C"
+              color="#B0A5FD"
             />
             <Circle
               cx={(111 / 430) * width + ((200 / 430) * width) / 2}
               cy={(376 / 932) * height + ((200 / 932) * height) / 2}
               r={((134 / 430) * width) / 2}
-              color="#fff"
+              color="#F8FBFC"
             />
           </Group>
           <Group transform={secondSegmentTransform}>
-            <DiffRect inner={inner} outer={outer} color="#F1E5FF" />
+            <DiffRect inner={inner} outer={outer} color="#DDD9FE" />
           </Group>
           <Group transform={thirdSegmentTransform}>
             <Circle
               cx={(169 / 430) * width + ((24 / 430) * width) / 2}
               cy={(508 / 932) * height + ((24 / 932) * height) / 2}
               r={((24 / 430) * width) / 2}
-              color="#B77EFF"
+              color="#8D7EFB"
             />
           </Group>
           <Group transform={pathTransform}>
@@ -307,7 +307,7 @@ export const WelcomeScreen: FC<WelcomeScreenParams> = ({ navigation }) => {
 const Styles = StyleSheet.create({
   wrap: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: "#F8FBFC",
   },
   safeArea: {
     flex: 1,
@@ -362,7 +362,7 @@ const Styles = StyleSheet.create({
     padding: 16,
     borderRadius: 12,
     marginBottom: 16,
-    backgroundColor: "#7D16FF",
+    backgroundColor: "#7135FD",
   },
   signUpButton: {
     zIndex: 10,
@@ -371,9 +371,9 @@ const Styles = StyleSheet.create({
     gap: 12,
     padding: 16,
     borderWidth: 1,
-    borderColor: "#7D16FF",
+    borderColor: "#7135FD",
     borderRadius: 12,
-    backgroundColor: "#F8F2FF",
+    backgroundColor: "#EEECFF",
   },
   loginButtonText: {
     fontFamily: getFontFamily("semiBold"),
@@ -383,6 +383,6 @@ const Styles = StyleSheet.create({
   signUpButtonText: {
     fontFamily: getFontFamily("semiBold"),
     fontSize: 16,
-    color: "#7D16FF",
+    color: "#7135FD",
   },
 });

@@ -1,5 +1,4 @@
 export enum RootRoutes {
-  BookAppointment = "BookAppointment",
   Main = "Main",
   Welcome = "Welcome",
   Login = "Login",
@@ -16,6 +15,8 @@ export enum BottomTabRoutes {
 export enum HomeRoutes {
   Home = "Home",
   Doctor = "Doctor",
+  BookAppointment = "BookAppointment",
+  AddPet = "AddPet",
 }
 
 export enum CalendarRoutes {

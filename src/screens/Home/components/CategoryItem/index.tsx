@@ -19,7 +19,7 @@ interface CategoryItemProps {
 }
 
 const getIconByCategory = (category: CATEGORIES, isActive: boolean) => {
-  const stroke = isActive ? "#FFFFFF" : "#7D16FF";
+  const stroke = isActive ? "#DDD9FE" : "#7135FD";
   switch (category) {
     case CATEGORIES.THERAPISTS:
       return <TherapistsIcon stroke={stroke} />;
@@ -73,10 +73,10 @@ const Styles = StyleSheet.create({
     height: 75,
     width: 75,
     borderRadius: "100%",
-    backgroundColor: "#B77EFF8C",
+    backgroundColor: "#C6BFFD",
   },
   iconWrapActive: {
-    backgroundColor: "#7D16FFD0",
+    backgroundColor: "#7135FD",
   },
   labelWrap: {
     flex: 1,

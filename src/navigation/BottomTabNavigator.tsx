@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import React, { FC, useEffect } from "react";
 import { View, TouchableWithoutFeedback, StyleSheet } from "react-native";
 import {
   BottomTabBarProps,
@@ -14,6 +14,7 @@ import { BottomTabRoutes } from "src/types/navigation-enums";
 import { HomeNavigator } from "./HomeNavigator";
 import { CalendarNavigator } from "./CalendatNavigation";
 import { ProfileNavigator } from "./ProfileNavigation";
+import changeNavigationBarColor from "react-native-navigation-bar-color";
 
 const Tab = createBottomTabNavigator<TabStackParamsList>();
 
@@ -66,6 +67,10 @@ const TabBar: FC<BottomTabBarProps> = ({ state, navigation }) => {
   const activeIndex = state.index;
 
   const paddingBottom = insets.bottom >= 20 ? insets.bottom : 20;
+
+  useEffect(() => {
+    changeNavigationBarColor("#FFFFFF", true, false);
+  }, []);
 
   return (
     <View

@@ -30,3 +30,17 @@ export type UserLoginDataResponse = {
 export type UserDataResponse = UserLoginDataResponse["owner"] & {
   petsList: PetDataResponse[];
 };
+
+export type AppointmentDataRequest = {
+  doctorId: number;
+  petId: number;
+  ownerId: number;
+  dateTime: string;
+};
+
+export type AppointmentDataResponse = {
+  id: number;
+  dateTime: string;
+  durationMinutes: number;
+  status: string;
+};

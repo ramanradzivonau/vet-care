@@ -1,5 +1,6 @@
 import { FC, useEffect, useState } from "react";
 import {
+  Dimensions,
   Image,
   ImageBackground,
   StyleSheet,
@@ -44,12 +45,6 @@ export const SignupScreen: FC<SignupScreenParams> = ({ navigation }) => {
   const goToSecondStep = () => {
     if (login && email && password) {
       setStep(1);
-    }
-  };
-
-  const goToThirdStep = () => {
-    if (name || surname || telephoneNumber) {
-      setStep(2);
     }
   };
 
@@ -111,14 +106,14 @@ export const SignupScreen: FC<SignupScreenParams> = ({ navigation }) => {
           {step === 0 && (
             <View style={Styles.signupStep}>
               <Text style={Styles.stepTitle}>Создай свой аккаунт</Text>
-              <Text style={Styles.stepSubtitle}>Шаг: {step + 1}</Text>
+              <Text style={Styles.stepSubtitle}>Шаг 1: Создайте аккаунт</Text>
               <TextInput
                 style={Styles.input}
                 onChangeText={onLoginChange}
                 onSubmitEditing={goToSecondStep}
                 value={login}
                 placeholder="Логин"
-                placeholderTextColor="#DDC2FF"
+                placeholderTextColor="#8D7EFB"
                 autoCapitalize="none"
                 autoCorrect={false}
               />
@@ -128,7 +123,7 @@ export const SignupScreen: FC<SignupScreenParams> = ({ navigation }) => {
                 onSubmitEditing={goToSecondStep}
                 value={email}
                 placeholder="Почта"
-                placeholderTextColor="#DDC2FF"
+                placeholderTextColor="#8D7EFB"
                 autoCapitalize="none"
                 autoCorrect={false}
                 inputMode="email"
@@ -139,12 +134,12 @@ export const SignupScreen: FC<SignupScreenParams> = ({ navigation }) => {
                 onSubmitEditing={goToSecondStep}
                 value={password}
                 placeholder="Пароль"
-                placeholderTextColor="#DDC2FF"
+                placeholderTextColor="#8D7EFB"
                 autoCapitalize="none"
                 autoCorrect={false}
                 secureTextEntry
               />
-              <View style={Styles.nextButtonWrap}>
+              <View style={[Styles.nextButtonWrap, { marginTop: "auto" }]}>
                 <TouchableOpacity
                   style={[
                     Styles.nextButton,
@@ -161,35 +156,60 @@ export const SignupScreen: FC<SignupScreenParams> = ({ navigation }) => {
           {step === 1 && (
             <View style={Styles.signupStep}>
               <Text style={Styles.stepTitle}>Создай свой аккаунт</Text>
-              <Text style={Styles.stepSubtitle}>Шаг: {step + 1}</Text>
-
+              <Text style={Styles.stepSubtitle}>
+                Шаг 2: Добавьте информацию о себе
+              </Text>
+              <View style={Styles.imgWrap}>
+                <TouchableOpacity
+                  style={Styles.imgContainer}
+                  onPress={pickImage}>
+                  <View style={Styles.imgPicker}>
+                    {!imageBase64 && (
+                      <Image
+                        source={require("src/assets/LoginScreen/img-placeholder.png")}
+                        style={Styles.imgPlaceholder}
+                        resizeMode="contain"
+                      />
+                    )}
+                    {imageBase64 && (
+                      <Image
+                        source={{
+                          uri: `data:image/jpeg;base64,${imageBase64}`,
+                        }}
+                        style={Styles.img}
+                      />
+                    )}
+                  </View>
+                  <AddIcon style={Styles.imgPickerIcon} />
+                </TouchableOpacity>
+              </View>
               <TextInput
                 style={Styles.input}
                 onChangeText={onNameChange}
-                onSubmitEditing={goToThirdStep}
+                onSubmitEditing={finishRegistration}
                 value={name}
                 placeholder="Имя"
-                placeholderTextColor="#DDC2FF"
+                placeholderTextColor="#8D7EFB"
                 autoCapitalize="none"
                 autoCorrect={false}
               />
               <TextInput
                 style={Styles.input}
                 onChangeText={onSurnameChange}
-                onSubmitEditing={goToThirdStep}
+                onSubmitEditing={finishRegistration}
                 value={surname}
                 placeholder="Фамилия"
-                placeholderTextColor="#DDC2FF"
+                placeholderTextColor="#8D7EFB"
                 autoCapitalize="none"
                 autoCorrect={false}
               />
               <TextInput
                 style={Styles.input}
                 onChangeText={onTelephoneNumberChange}
-                onSubmitEditing={goToThirdStep}
+                onSubmitEditing={finishRegistration}
                 value={telephoneNumber}
                 placeholder="Номер телефона"
-                placeholderTextColor="#DDC2FF"
+                placeholderTextColor="#8D7EFB"
                 autoCapitalize="none"
                 autoCorrect={false}
                 inputMode="tel"
@@ -198,63 +218,29 @@ export const SignupScreen: FC<SignupScreenParams> = ({ navigation }) => {
                 <TouchableOpacity
                   style={[
                     Styles.nextButton,
-                    !!(!name || !surname || !telephoneNumber) &&
+                    !!(!name || !surname || !telephoneNumber || !imageBase64) &&
                       Styles.nextButtonDisabled,
                   ]}
-                  onPress={goToThirdStep}
-                  disabled={!name || !surname || !telephoneNumber}>
-                  <Text style={Styles.nextButtonText}>Продолжить</Text>
-                </TouchableOpacity>
-              </View>
-            </View>
-          )}
-          {step === 2 && (
-            <View style={Styles.signupStep}>
-              <Text style={Styles.stepTitle}>Создай свой аккаунт</Text>
-              <Text style={Styles.stepSubtitle}>Шаг: {step + 1}</Text>
-              <View style={Styles.imgPickerWrap}>
-                <TouchableOpacity
-                  style={Styles.imgPickerContainer}
-                  onPress={pickImage}>
-                  <Image
-                    source={require("src/assets/LoginScreen/img-placeholder.png")}
-                    style={Styles.imgPickerPlaceholder}
-                  />
-                  {imageBase64 && (
-                    <Image
-                      source={{ uri: `data:image/jpeg;base64,${imageBase64}` }}
-                      style={Styles.imgPickerImg}
-                    />
-                  )}
-                  <AddIcon style={Styles.imgPickerIcon} />
-                </TouchableOpacity>
-              </View>
-              <View style={Styles.nextButtonWrap}>
-                <TouchableOpacity
-                  style={[
-                    Styles.nextButton,
-                    !imageBase64 && Styles.nextButtonDisabled,
-                  ]}
                   onPress={finishRegistration}
-                  disabled={!imageBase64}>
+                  disabled={
+                    !name || !surname || !telephoneNumber || !imageBase64
+                  }>
                   <Text style={Styles.nextButtonText}>Зарегестрироваться</Text>
                 </TouchableOpacity>
               </View>
             </View>
           )}
         </View>
-        <View style={Styles.loginContainer}>
-          {step === 0 && (
-            <>
-              <Text style={Styles.loginContainerText}>Уже есть аккаунт? </Text>
-              <TouchableOpacity
-                onPress={() => {
-                  navigation.replace(RootRoutes.Login);
-                }}>
-                <Text style={Styles.loginContainerLink}>Войти</Text>
-              </TouchableOpacity>
-            </>
-          )}
+        <View style={[Styles.loginContainer, step === 1 && { opacity: 0 }]}>
+          <>
+            <Text style={Styles.loginContainerText}>Уже есть аккаунт? </Text>
+            <TouchableOpacity
+              onPress={() => {
+                navigation.replace(RootRoutes.Login);
+              }}>
+              <Text style={Styles.loginContainerLink}>Войти</Text>
+            </TouchableOpacity>
+          </>
         </View>
       </View>
     </ImageBackground>
@@ -281,13 +267,15 @@ const Styles = StyleSheet.create({
     backgroundColor: "#FFFFFF66",
   },
   signupForm: {
-    flex: 0.75,
+    flex: 1,
     paddingHorizontal: 22,
   },
   signupStep: {
     flex: 1,
-    justifyContent: "center",
-    paddingTop: 144,
+    // justifyContent: "center",
+    paddingTop: 140,
+    // backgroundColor: "#f00",
+    paddingBottom: 22,
   },
   stepTitle: {
     fontFamily: getFontFamily("bold"),
@@ -304,45 +292,59 @@ const Styles = StyleSheet.create({
   input: {
     height: 54,
     borderRadius: 16,
-    borderWidth: 1,
-    borderColor: "#7D16FF",
-    padding: 10,
-    marginBottom: 24,
+    borderWidth: 2,
+    borderColor: "#C6BFFD",
+    paddingVertical: 10,
+    paddingHorizontal: 16,
+    marginBottom: 22,
     backgroundColor: "#fff",
     elevation: 5,
-    fontFamily: getFontFamily("regular"),
+    fontFamily: getFontFamily("medium"),
     fontSize: 14,
     color: "#544864",
   },
-  imgPickerWrap: {
-    alignItems: "center",
-    marginBottom: 24,
+  imgWrap: {
+    width: (Dimensions.get("screen").width - 44) * 0.52,
+    height: (Dimensions.get("screen").width - 44) * 0.52,
+    borderWidth: 2,
+    borderColor: "#C6BFFD",
+    borderRadius: 1000,
+    marginHorizontal: "auto",
+    marginBottom: 22,
   },
-  imgPickerContainer: {
-    position: "relative",
-    width: 210,
-    height: 210,
-    borderRadius: 16,
-    padding: 3,
-    backgroundColor: "#fff",
+  imgWrapSmall: {
+    width: (Dimensions.get("screen").width - 44) * 0.35,
+    height: (Dimensions.get("screen").width - 44) * 0.35,
   },
-  imgPickerPlaceholder: {
+  imgContainer: {
+    width: "80%",
+    height: "80%",
+    borderWidth: 2,
+    borderColor: "#C6BFFD",
+    borderRadius: 1000,
+    marginVertical: "auto",
+    marginHorizontal: "auto",
+  },
+  imgPicker: {
+    flex: 1,
+  },
+  imgPlaceholder: {
     width: "100%",
     height: "100%",
-    borderRadius: 13,
+    borderRadius: 1000,
+    marginVertical: "auto",
+    marginHorizontal: "auto",
   },
-  imgPickerImg: {
+  img: {
     position: "absolute",
-    top: 3,
-    left: 3,
     width: "100%",
     height: "100%",
-    borderRadius: 13,
+    borderRadius: 1000,
   },
   imgPickerIcon: {
     position: "absolute",
-    top: 185,
-    left: 185,
+    top: (Dimensions.get("screen").width - 44) * 0.35,
+    left: (Dimensions.get("screen").width - 44) * 0.35,
   },
   nextButtonWrap: {
     backgroundColor: "#fff",
@@ -356,7 +358,7 @@ const Styles = StyleSheet.create({
     gap: 4,
     height: 54,
     borderRadius: 16,
-    backgroundColor: "#7D16FF",
+    backgroundColor: "#7135FD",
   },
   nextButtonDisabled: {
     backgroundColor: "#9E9E9E",
@@ -367,10 +369,10 @@ const Styles = StyleSheet.create({
     color: "#FFFFFF",
   },
   loginContainer: {
-    flex: 0.25,
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
+    paddingBottom: 50,
   },
   loginContainerText: {
     fontFamily: getFontFamily("semiBold"),
@@ -380,6 +382,6 @@ const Styles = StyleSheet.create({
   loginContainerLink: {
     fontFamily: getFontFamily("semiBold"),
     fontSize: 16,
-    color: "#7D16FF",
+    color: "#7135FD",
   },
 });

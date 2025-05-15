@@ -40,7 +40,7 @@ export const DoctorScreen: FC<DoctorScreenProps> = ({ navigation, route }) => {
     ?.doctors.find(doctor => doctor.id === id)!;
 
   const onBookAppointmentButtonPress = () => {
-    // navigation.navigate(RootRoutes.BookAppointment, { id });
+    navigation.navigate(HomeRoutes.BookAppointment, { id });
   };
 
   const currentDay = new Date().toISOString().slice(0, 10);
@@ -86,7 +86,6 @@ export const DoctorScreen: FC<DoctorScreenProps> = ({ navigation, route }) => {
                     {doctorInfo.schedule?.slice(0, 5)?.map(day => {
                       const date = new Date(day);
                       const dateString = date.toISOString().slice(0, 10);
-                      console.log({ date });
 
                       const dayOfWeek =
                         LocaleConfig.locales["ru"].dayNamesShort[
@@ -101,7 +100,7 @@ export const DoctorScreen: FC<DoctorScreenProps> = ({ navigation, route }) => {
                             style={[
                               Styles.scheduleDate,
                               currentDay === dateString && {
-                                color: "#7D16FF",
+                                color: "#7135FD",
                               },
                             ]}>
                             {date.getDate()}
@@ -120,7 +119,7 @@ export const DoctorScreen: FC<DoctorScreenProps> = ({ navigation, route }) => {
                   ]}
                   onPress={onBookAppointmentButtonPress}
                   disabled={doctorInfo.schedule === null}>
-                  <Text style={Styles.bookButtonText}>Забронировать</Text>
+                  <Text style={Styles.bookButtonText}>Записаться</Text>
                   <ArrowRight fill="#FFF" />
                 </TouchableOpacity>
               </View>
@@ -191,12 +190,12 @@ const Styles = StyleSheet.create({
   tag: {
     paddingHorizontal: 12,
     borderRadius: 12,
-    backgroundColor: "#DDC2FF",
+    backgroundColor: "#C6BFFD",
   },
   tagText: {
     fontFamily: getFontFamily("regular"),
     fontSize: 16,
-    color: "#A259FF",
+    color: "#7135FD",
   },
   description: {
     marginTop: 20,
@@ -225,8 +224,8 @@ const Styles = StyleSheet.create({
     width: 60,
     height: 60,
     borderRadius: 30,
-    backgroundColor: "#FAFAFB",
-    elevation: 1,
+    backgroundColor: "#FFFFFF",
+    elevation: 2,
   },
   scheduleDayOfWeek: {
     fontFamily: getFontFamily("regular"),
@@ -245,15 +244,15 @@ const Styles = StyleSheet.create({
     flexDirection: "row",
     gap: 12,
   },
-  messageButton: {
-    justifyContent: "center",
-    alignItems: "center",
-    height: 54,
-    width: 54,
-    borderRadius: 16,
-    backgroundColor: "#7D16FF",
-    elevation: 5,
-  },
+  // messageButton: {
+  //   justifyContent: "center",
+  //   alignItems: "center",
+  //   height: 54,
+  //   width: 54,
+  //   borderRadius: 16,
+  //   backgroundColor: "#7D16FF",
+  //   elevation: 5,
+  // },
   bookButton: {
     flex: 1,
     flexDirection: "row",
@@ -262,7 +261,7 @@ const Styles = StyleSheet.create({
     gap: 4,
     height: 54,
     borderRadius: 16,
-    backgroundColor: "#7D16FF",
+    backgroundColor: "#7135FD",
     elevation: 5,
   },
   bookButtonDisabled: {

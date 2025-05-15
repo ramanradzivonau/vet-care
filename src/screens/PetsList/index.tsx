@@ -52,7 +52,7 @@ export const PetsListScreen: FC<PetsListScreenProps> = ({ navigation }) => {
 
       <ScrollView style={Styles.scrollView} overScrollMode="never">
         <View style={[Styles.petsList]}>
-          {userData.petsList.slice(0, 2).map((pet, index) => (
+          {userData.petsList.map((pet, index) => (
             <Card
               key={`pet-${pet.id}`}
               text={pet.name}

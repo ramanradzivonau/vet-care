@@ -3,10 +3,11 @@ import {
   createStackNavigator,
   TransitionPresets,
 } from "@react-navigation/stack";
-import { DoctorScreen, HomeScreen } from "src/screens";
+import { BookAppointmentScreen, DoctorScreen, HomeScreen } from "src/screens";
 import { HomeStackParamList } from "src/types/navigation";
 import { HomeRoutes } from "src/types/navigation-enums";
 import { StyleSheet } from "react-native";
+import { AddPetScreen } from "src/screens/AddPet";
 
 const HomeStack = createStackNavigator<HomeStackParamList>();
 
@@ -20,6 +21,11 @@ export const HomeNavigator: FC = () => {
       initialRouteName={HomeRoutes.Home}>
       <HomeStack.Screen name={HomeRoutes.Home} component={HomeScreen} />
       <HomeStack.Screen name={HomeRoutes.Doctor} component={DoctorScreen} />
+      <HomeStack.Screen
+        name={HomeRoutes.BookAppointment}
+        component={BookAppointmentScreen}
+      />
+      <HomeStack.Screen name={HomeRoutes.AddPet} component={AddPetScreen} />
     </HomeStack.Navigator>
   );
 };

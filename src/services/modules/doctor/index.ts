@@ -1,6 +1,6 @@
 import { MMKV } from "react-native-mmkv";
 import { api } from "../../api";
-import { DoctorsDataResponse } from "./types";
+import { DoctorScheduleDataResponse, DoctorsDataResponse } from "./types";
 
 const storage = new MMKV();
 
@@ -14,8 +14,17 @@ export const ownerApi = api.injectEndpoints({
         },
       }),
     }),
+    getDoctorSchedule: build.query<DoctorScheduleDataResponse, { id: number }>({
+      query: ({ id }) => ({
+        url: `schedule/doctor/${id}`,
+        headers: {
+          Authorization: `Bearer ${storage.getString("access_token")}`,
+        },
+      }),
+    }),
   }),
   overrideExisting: false,
 });
 
-export const { useLazyGetAllDoctorsQuery } = ownerApi;
+export const { useLazyGetAllDoctorsQuery, useLazyGetDoctorScheduleQuery } =
+  ownerApi;

@@ -10,8 +10,11 @@ import {
 } from "react-native";
 import { StackScreenProps } from "@react-navigation/stack";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { ProfileStackParamList } from "src/types/navigation";
-import { ProfileRoutes } from "src/types/navigation-enums";
+import {
+  HomeStackParamList,
+  ProfileStackParamList,
+} from "src/types/navigation";
+import { HomeRoutes, ProfileRoutes } from "src/types/navigation-enums";
 import ArrowLeft from "src/assets/icons/ArrowLeft";
 import { ScrollView } from "react-native-gesture-handler";
 import { getFontFamily } from "src/utils/fontFamily";
@@ -34,10 +37,9 @@ import { Gender, PetTypes } from "src/services/modules/pet/types";
 import { useAppDispatch, useAppSelector } from "src/store";
 import { addPetData } from "src/store/user";
 
-type AddPetScreenProps = StackScreenProps<
-  ProfileStackParamList,
-  ProfileRoutes.AddPet
->;
+type AddPetScreenProps =
+  | StackScreenProps<ProfileStackParamList, ProfileRoutes.AddPet>
+  | StackScreenProps<HomeStackParamList, HomeRoutes.AddPet>;
 
 export const AddPetScreen: FC<AddPetScreenProps> = ({ navigation }) => {
   const userData = useAppSelector(state => state.owner);
@@ -55,6 +57,7 @@ export const AddPetScreen: FC<AddPetScreenProps> = ({ navigation }) => {
   );
 
   const [addPet, { status, data: petData }] = useLazyAddPetQuery();
+
   const dispatch = useAppDispatch();
 
   const insets = useSafeAreaInsets();
